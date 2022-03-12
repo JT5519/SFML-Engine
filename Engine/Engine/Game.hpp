@@ -14,4 +14,4 @@ class Game
     private:
         Window window;
 };
-#endif /* Game_hpp */
+#endif

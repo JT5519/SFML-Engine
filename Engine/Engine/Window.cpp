@@ -1,12 +1,12 @@
 #include "Window.hpp"
 Window::Window(const std::string& windowName)
-    : window(sf::VideoMode(800, 600), windowName, sf::Style::Titlebar) // 1
+    : window(sf::VideoMode(800, 600), windowName, sf::Style::Titlebar)
 {
-    window.setVerticalSyncEnabled(true); // 2
+    window.setVerticalSyncEnabled(true);
 }
 void Window::Update()
 {
-    sf::Event event; // 3
+    sf::Event event; 
     if (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
@@ -15,7 +15,7 @@ void Window::Update()
         }
     }
 }
-void Window::BeginDraw() // 4
+void Window::BeginDraw()
 {
     window.clear(sf::Color::White);
 }
