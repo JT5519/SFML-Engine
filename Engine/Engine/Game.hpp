@@ -3,6 +3,7 @@
 #define Game_hpp
 
 #include "Window.hpp"
+#include "WorkingDirectory.hpp"
 class Game
 {
     public:
@@ -13,5 +14,8 @@ class Game
         bool IsRunning() const;
     private:
         Window window;
+        WorkingDirectory workingDirectory;
+        sf::Texture charTexture;
+        sf::Sprite  charSprite;
 };
 #endif

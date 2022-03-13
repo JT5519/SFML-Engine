@@ -2,7 +2,8 @@
     
 Game::Game() : window("SFML Game Engine")
 {
-
+    charTexture.loadFromFile(workingDirectory.Get() + "charSprite.png");
+    charSprite.setTexture(charTexture);
 }
 void Game::Update() 
 {
@@ -15,7 +16,7 @@ void Game::LateUpdate()
 void Game::Draw()
 {
     window.BeginDraw();
-    //draw code
+    window.Draw(charSprite);
     window.EndDraw();
 }
 bool Game::IsRunning() const
