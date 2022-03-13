@@ -1,19 +1,25 @@
 #ifndef Window_hpp
 #define Window_hpp
-#include <SFML/Graphics.hpp>
 
+#include <SFML/Graphics.hpp>
 
 class Window
 {
 public:
-	Window(const std::string& windowName);
-	void Update();
+    Window(const std::string& windowName);
 
-	void BeginDraw();
-	void Draw(const sf::Drawable& drawable);
-	void EndDraw();
-	bool IsOpen() const;
+    void Update();
+
+    void BeginDraw();
+    void Draw(const sf::Drawable& drawable);
+    void EndDraw();
+
+    sf::Vector2u GetCentre() const;
+
+    bool IsOpen() const;
+
 private:
-	sf::RenderWindow window;
+    sf::RenderWindow window;
 };
-#endif
+
+#endif /* Window_hpp */

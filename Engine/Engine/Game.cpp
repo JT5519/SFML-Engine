@@ -1,62 +1,54 @@
 #include "Game.hpp"
-    
-Game::Game() : window("SFML Game Engine")
-{
-    charTexture.loadFromFile(workingDirectory.Get() + "charSprite.png");
-    charSprite.setTexture(charTexture);
-    deltaTime = frameClock.restart().asSeconds();
-}
-void Game::Update() 
-{
-    window.Update();
-    const sf::Vector2f& spritePos = charSprite.getPosition();
-    const int moveSpeed = 100;
-    
-    int xMove = 0;
-    if (input.IsKeyPressed(Input::Key::Left))
-    {
-        xMove = -moveSpeed;
-    }
-    else if (input.IsKeyPressed(Input::Key::Right))
-    {
-        xMove = moveSpeed;
-    }
-    
-    int yMove = 0;
-    if (input.IsKeyPressed(Input::Key::Up))
-    {
-        yMove = -moveSpeed;
-    }
-    else if (input.IsKeyPressed(Input::Key::Down))
-    {
-        yMove = moveSpeed;
-    }
-    
-    float xFrameMove = xMove * deltaTime;
-    float yFrameMove = yMove * deltaTime;
-    charSprite.setPosition(spritePos.x + xFrameMove, spritePos.y + yFrameMove);
-}
-void Game::LateUpdate() 
-{
 
-}
-void Game::Draw()
+Game::Game() : window("SFML Engine")
 {
-    window.BeginDraw();
-    window.Draw(charSprite);
-    window.EndDraw();
-}
-bool Game::IsRunning() const
-{
-    return window.IsOpen();
-}
+    std::shared_ptr<SceneSplashScreen> splashScreen = std::make_shared<SceneSplashScreen>(workingDir, sceneManager, window);
 
-void Game::updateDeltaTime()
-{
-    deltaTime = frameClock.restart().asSeconds();
+    std::shared_ptr<SceneGame> gameScene = std::make_shared<SceneGame>(workingDir);
+
+    unsigned int splashScreenID = sceneManager.Add(splashScreen);
+    unsigned int gameSceneID = sceneManager.Add(gameScene);
+
+    splashScreen->SetSwitchToScene(gameSceneID);
+
+    sceneManager.SwitchTo(splashScreenID);
+
+    deltaTime = clock.restart().asSeconds();
+
 }
 
 void Game::CaptureInput()
 {
-    input.Update();
+    sceneManager.ProcessInput();
+}
+
+void Game::Update()
+{
+    window.Update();
+
+    sceneManager.Update(deltaTime);
+}
+
+void Game::LateUpdate()
+{
+    sceneManager.LateUpdate(deltaTime);
+}
+
+void Game::Draw()
+{
+    window.BeginDraw();
+
+    sceneManager.Draw(window);
+
+    window.EndDraw();
+}
+
+void Game::CalculateDeltaTime()
+{
+    deltaTime = clock.restart().asSeconds();
+}
+
+bool Game::IsRunning() const
+{
+    return window.IsOpen();
 }
