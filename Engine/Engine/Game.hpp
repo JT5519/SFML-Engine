@@ -4,6 +4,8 @@
 
 #include "Window.hpp"
 #include "WorkingDirectory.hpp"
+#include "Input.hpp"
+
 class Game
 {
     public:
@@ -13,6 +15,7 @@ class Game
         void Draw();
         bool IsRunning() const;
         void updateDeltaTime();
+        void CaptureInput();
     private:
         Window window;
         WorkingDirectory workingDirectory;
@@ -20,5 +23,6 @@ class Game
         sf::Sprite  charSprite;
         sf::Clock frameClock;
         float deltaTime;
+        Input input;
 };
 #endif

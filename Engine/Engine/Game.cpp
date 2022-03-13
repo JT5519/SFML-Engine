@@ -10,9 +10,31 @@ void Game::Update()
 {
     window.Update();
     const sf::Vector2f& spritePos = charSprite.getPosition();
-    const int pixelsToMovePerSec = 100;
-    const float frameMovement = pixelsToMovePerSec * deltaTime;
-    charSprite.setPosition(spritePos.x + frameMovement, spritePos.y);
+    const int moveSpeed = 100;
+    
+    int xMove = 0;
+    if (input.IsKeyPressed(Input::Key::Left))
+    {
+        xMove = -moveSpeed;
+    }
+    else if (input.IsKeyPressed(Input::Key::Right))
+    {
+        xMove = moveSpeed;
+    }
+    
+    int yMove = 0;
+    if (input.IsKeyPressed(Input::Key::Up))
+    {
+        yMove = -moveSpeed;
+    }
+    else if (input.IsKeyPressed(Input::Key::Down))
+    {
+        yMove = moveSpeed;
+    }
+    
+    float xFrameMove = xMove * deltaTime;
+    float yFrameMove = yMove * deltaTime;
+    charSprite.setPosition(spritePos.x + xFrameMove, spritePos.y + yFrameMove);
 }
 void Game::LateUpdate() 
 {
@@ -32,4 +54,9 @@ bool Game::IsRunning() const
 void Game::updateDeltaTime()
 {
     deltaTime = frameClock.restart().asSeconds();
+}
+
+void Game::CaptureInput()
+{
+    input.Update();
 }
