@@ -12,10 +12,13 @@ class Game
         void LateUpdate();
         void Draw();
         bool IsRunning() const;
+        void updateDeltaTime();
     private:
         Window window;
         WorkingDirectory workingDirectory;
         sf::Texture charTexture;
         sf::Sprite  charSprite;
+        sf::Clock frameClock;
+        float deltaTime;
 };
 #endif

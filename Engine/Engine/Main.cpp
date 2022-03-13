@@ -7,5 +7,6 @@ int main()
 		game.Update();
 		game.LateUpdate();
 		game.Draw();
+		game.updateDeltaTime();
 	}
 }
