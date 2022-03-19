@@ -29,7 +29,8 @@ private:
     sf::Clock clock;
     float deltaTime;
 
-    SceneStateMachine sceneManager;
+    SceneStateMachine sceneStateMachine;
+    ResourceAllocator<sf::Texture> textureAllocator;
 };
 
-#endif 
+#endif /* Game_hpp */

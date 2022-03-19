@@ -1,15 +1,13 @@
 #include "SceneGame.hpp"
 
-SceneGame::SceneGame(WorkingDirectory& workingDir) : workingDir(workingDir)
-{
-
-}
+SceneGame::SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture>& textureAllocator) : workingDir(workingDir), textureAllocator(textureAllocator) { }
 
 void SceneGame::OnCreate()
 {
     player = std::make_shared<Object>();
 
     auto sprite = player->AddComponent<C_Sprite>();
+    sprite->SetTextureAllocator(&textureAllocator);
     sprite->Load(workingDir.Get() + "charSprite.png");
 
     auto movement = player->AddComponent<C_KeyboardMovement>();

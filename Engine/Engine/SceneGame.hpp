@@ -1,4 +1,3 @@
-
 #ifndef SceneGame_hpp
 #define SceneGame_hpp
 
@@ -8,11 +7,12 @@
 #include "Object.hpp"
 #include "C_Sprite.hpp"
 #include "C_KeyboardMovement.hpp"
+#include "ResourceAllocator.hpp"
 
 class SceneGame : public Scene
 {
 public:
-    SceneGame(WorkingDirectory& workingDir);
+    SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture>& textureAllocator);
 
     void OnCreate() override;
     void OnDestroy() override;
@@ -27,6 +27,7 @@ private:
 
     WorkingDirectory& workingDir;
     Input input;
+    ResourceAllocator<sf::Texture>& textureAllocator;
 };
 
 #endif /* SceneGame_hpp */

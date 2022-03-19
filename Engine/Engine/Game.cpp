@@ -1,44 +1,43 @@
 #include "Game.hpp"
 
-Game::Game() : window("SFML Engine")
+Game::Game() : window("that game engine")
 {
-    std::shared_ptr<SceneSplashScreen> splashScreen = std::make_shared<SceneSplashScreen>(workingDir, sceneManager, window);
+    std::shared_ptr<SceneSplashScreen> splashScreen = std::make_shared<SceneSplashScreen>(workingDir, sceneStateMachine, window, textureAllocator);
 
-    std::shared_ptr<SceneGame> gameScene = std::make_shared<SceneGame>(workingDir);
+    std::shared_ptr<SceneGame> gameScene = std::make_shared<SceneGame>(workingDir, textureAllocator);
 
-    unsigned int splashScreenID = sceneManager.Add(splashScreen);
-    unsigned int gameSceneID = sceneManager.Add(gameScene);
+    unsigned int splashScreenID = sceneStateMachine.Add(splashScreen);
+    unsigned int gameSceneID = sceneStateMachine.Add(gameScene);
 
     splashScreen->SetSwitchToScene(gameSceneID);
 
-    sceneManager.SwitchTo(splashScreenID);
+    sceneStateMachine.SwitchTo(splashScreenID);
 
     deltaTime = clock.restart().asSeconds();
-
 }
 
 void Game::CaptureInput()
 {
-    sceneManager.ProcessInput();
+    sceneStateMachine.ProcessInput();
 }
 
 void Game::Update()
 {
     window.Update();
 
-    sceneManager.Update(deltaTime);
+    sceneStateMachine.Update(deltaTime);
 }
 
 void Game::LateUpdate()
 {
-    sceneManager.LateUpdate(deltaTime);
+    sceneStateMachine.LateUpdate(deltaTime);
 }
 
 void Game::Draw()
 {
     window.BeginDraw();
 
-    sceneManager.Draw(window);
+    sceneStateMachine.Draw(window);
 
     window.EndDraw();
 }

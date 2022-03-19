@@ -5,11 +5,12 @@
 
 #include "SceneStateMachine.hpp"
 #include "WorkingDirectory.hpp"
+#include "ResourceAllocator.hpp"
 
 class SceneSplashScreen : public Scene
 {
 public:
-    SceneSplashScreen(WorkingDirectory& workingDir, SceneStateMachine& sceneStateMachine, Window& window);
+    SceneSplashScreen(WorkingDirectory& workingDir, SceneStateMachine& sceneStateMachine, Window& window, ResourceAllocator<sf::Texture>& textureAllocator);
 
     void OnCreate() override;
     void OnDestroy() override;
@@ -29,10 +30,12 @@ private:
     SceneStateMachine& sceneStateMachine;
     Window& window;
 
-    float showForSeconds; // We want to show this scene for a set amount of time
-    float currentSeconds; // How long the scene has currently been visible.
+    float currentSeconds;
+    float showForSeconds;
 
-    unsigned int switchToState; // The state we want to transition to when this scenes time expires.
+    unsigned int switchToState;
+
+    ResourceAllocator<sf::Texture>& textureAllocator;
 };
 
 #endif /* SceneSplashScreen_hpp */
