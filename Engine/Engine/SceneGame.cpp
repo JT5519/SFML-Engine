@@ -4,7 +4,7 @@ SceneGame::SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture
 
 void SceneGame::OnCreate()
 {
-    player = std::make_shared<Object>();
+    std::shared_ptr<Object> player = std::make_shared<Object>();
 
     auto sprite = player->AddComponent<C_Sprite>();
     sprite->SetTextureAllocator(&textureAllocator);
@@ -12,6 +12,8 @@ void SceneGame::OnCreate()
 
     auto movement = player->AddComponent<C_KeyboardMovement>();
     movement->SetInput(&input);
+
+    objects.Add(player);
 }
 
 void SceneGame::OnDestroy()
@@ -26,15 +28,18 @@ void SceneGame::ProcessInput()
 
 void SceneGame::Update(float deltaTime)
 {
-    player->Update(deltaTime);
+    objects.ProcessRemovals();
+    objects.ProcessNewObjects();
+
+    objects.Update(deltaTime);
 }
 
 void SceneGame::LateUpdate(float deltaTime)
 {
-    player->LateUpdate(deltaTime);
+    objects.LateUpdate(deltaTime);
 }
 
 void SceneGame::Draw(Window& window)
 {
-    player->Draw(window);
+    objects.Draw(window);
 }
