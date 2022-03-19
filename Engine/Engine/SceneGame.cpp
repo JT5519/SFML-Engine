@@ -11,6 +11,9 @@ void SceneGame::OnCreate()
 
     auto sprite = player->AddComponent<C_Sprite>();
     sprite->Load(workingDir.Get() + "charSprite.png");
+
+    auto movement = player->AddComponent<C_KeyboardMovement>();
+    movement->SetInput(&input);
 }
 
 void SceneGame::OnDestroy()
@@ -25,7 +28,12 @@ void SceneGame::ProcessInput()
 
 void SceneGame::Update(float deltaTime)
 {
+    player->Update(deltaTime);
+}
 
+void SceneGame::LateUpdate(float deltaTime)
+{
+    player->LateUpdate(deltaTime);
 }
 
 void SceneGame::Draw(Window& window)

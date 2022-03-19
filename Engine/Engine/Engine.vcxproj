@@ -152,7 +152,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BitMask.cpp" />
+    <ClCompile Include="C_KeyboardMovement.cpp" />
     <ClCompile Include="C_Sprite.cpp" />
+    <ClCompile Include="C_Transform.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -166,7 +168,9 @@
   <ItemGroup>
     <ClInclude Include="BitMask.hpp" />
     <ClInclude Include="Component.hpp" />
+    <ClInclude Include="C_KeyboardMovement.hpp" />
     <ClInclude Include="C_Sprite.hpp" />
+    <ClInclude Include="C_Transform.hpp" />
     <ClInclude Include="EnumHash.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Input.hpp" />

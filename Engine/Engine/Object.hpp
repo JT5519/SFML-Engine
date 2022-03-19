@@ -5,10 +5,13 @@
 
 #include "Window.hpp"
 #include "Component.hpp"
+#include "C_Transform.hpp"
 
 class Object
 {
 public:
+    Object();
+
     void Awake(); // Called when object created. Use to ensure required components are present.
     void Start(); // Called after Awake method. Use to initialise variables.
 
@@ -48,6 +51,8 @@ public:
 
         return nullptr;
     };
+
+    std::shared_ptr<C_Transform> transform;
 
 private:
     std::vector<std::shared_ptr<Component>> components;

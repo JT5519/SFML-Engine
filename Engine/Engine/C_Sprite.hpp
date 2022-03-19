@@ -2,6 +2,7 @@
 #define C_Sprite_hpp
 
 #include "Component.hpp"
+#include "C_Transform.hpp"
 
 class C_Sprite : public Component
 {
@@ -10,6 +11,7 @@ public:
 
     void Load(const std::string& filePath);
 
+    void LateUpdate(float deltaTime) override;
     void Draw(Window& window) override;
 
 private:
