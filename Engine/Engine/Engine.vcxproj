@@ -194,6 +194,9 @@
     <Image Include="geralt-thumbs-up.png" />
     <Image Include="Viking.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Viking.json" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
