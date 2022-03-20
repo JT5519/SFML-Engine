@@ -1,6 +1,11 @@
 #include "C_Transform.hpp"
 
-C_Transform::C_Transform(Object* owner) : Component(owner), position(0.f, 0.f), isStaticTransform(false) { }
+C_Transform::C_Transform(Object* owner) : Component(owner), position(0.f, 0.f), isStaticTransform(false), previousFramePosition(0.f, 0.f) { }
+
+void C_Transform::LateUpdate(float deltaTime)
+{
+    previousFramePosition = position;
+}
 
 void C_Transform::SetPosition(float x, float y)
 {
@@ -27,6 +32,8 @@ void C_Transform::AddX(float x) { position.x += x; }
 void C_Transform::AddY(float y) { position.y += y; }
 
 const sf::Vector2f& C_Transform::GetPosition() const { return position; }
+
+const sf::Vector2f& C_Transform::GetPreviousFramePosition() const { return previousFramePosition; }
 
 void C_Transform::SetStatic(bool isStatic) { isStaticTransform = isStatic; }
 

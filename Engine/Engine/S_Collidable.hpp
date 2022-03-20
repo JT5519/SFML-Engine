@@ -16,10 +16,13 @@ public:
 
     void Add(std::vector<std::shared_ptr<Object>>& objects);
     void ProcessRemovals();
+    void UpdatePositions(std::vector<std::shared_ptr<Object>>& objects);
+    void Resolve();
+
     void Update();
 
 private:
-    void Resolve();
+
     void ProcessCollisions(std::vector<std::shared_ptr<Object>>& first, std::vector<std::shared_ptr<Object>>& second);
 
     std::map<CollisionLayer, Bitmask> collisionLayers;

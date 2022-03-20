@@ -62,18 +62,20 @@ void S_Collidable::ProcessRemovals()
     }
 }
 
-void S_Collidable::Update()
+void S_Collidable::UpdatePositions(std::vector<std::shared_ptr<Object>>& objects)
 {
-    collisionTree.Clear();
-    for (auto maps = collidables.begin(); maps != collidables.end(); ++maps)
+    for (auto o : objects)
     {
-        for (auto collidable : maps->second)
+        if (!o->transform->isStatic())
         {
-            collisionTree.Insert(collidable);
+            auto collider = o->GetComponent<C_BoxCollider>();
+
+            if (collider)
+            {
+                collisionTree.UpdatePosition(collider);
+            }
         }
     }
-
-    Resolve();
 }
 
 void S_Collidable::Resolve()
@@ -112,6 +114,9 @@ void S_Collidable::Resolve()
 
                     if (m.colliding)
                     {
+                        Debug::DrawRect(collision->GetCollidable(), sf::Color::Red);
+                        Debug::DrawRect(collidable->GetCollidable(), sf::Color::Red);
+
                         if (collision->owner->transform->isStatic())
                         {
                             collidable->ResolveOverlap(m);
@@ -130,4 +135,21 @@ void S_Collidable::Resolve()
 
         }
     }
+}
+
+
+void S_Collidable::Update()
+{
+    collisionTree.DrawDebug();
+
+    collisionTree.Clear();
+    for (auto maps = collidables.begin(); maps != collidables.end(); ++maps)
+    {
+        for (auto collidable : maps->second)
+        {
+            collisionTree.Insert(collidable);
+        }
+    }
+
+    Resolve();
 }

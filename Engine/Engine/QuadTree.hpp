@@ -14,9 +14,12 @@ public:
     Quadtree();
     Quadtree(int maxObjects, int maxLevels, int level, sf::FloatRect bounds, Quadtree* parent);
 
+    void DrawDebug();
+
     void Insert(std::shared_ptr<C_BoxCollider> object);
     void Remove(std::shared_ptr<C_BoxCollider> object);
     void Clear();
+    void UpdatePosition(std::shared_ptr<C_BoxCollider> object);
 
     std::vector<std::shared_ptr<C_BoxCollider>> Search(const sf::FloatRect& area);
 
@@ -28,6 +31,7 @@ private:
     int GetChildIndexForObject(const sf::FloatRect& objectBounds);
     void Split();
 
+    //TODO: is there a better way to store this data? enum?
     static const int thisTree = -1;
     static const int childNE = 0;
     static const int childNW = 1;
