@@ -7,6 +7,7 @@
 #include "Component.hpp"
 #include "C_Transform.hpp"
 #include "C_Drawable.hpp"
+#include "C_InstanceID.hpp"
 
 class Object
 {
@@ -68,6 +69,7 @@ public:
     void QueueForRemoval();
 
     std::shared_ptr<C_Transform> transform;
+    std::shared_ptr<C_InstanceID> instanceID;
 
 private:
     std::vector<std::shared_ptr<Component>> components;
