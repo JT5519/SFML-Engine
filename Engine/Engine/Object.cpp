@@ -7,7 +7,7 @@ Object::Object() : queuedForRemoval(false)
 
 void Object::Awake()
 {
-    for (auto& c : components)
+    for (auto c : components)
     {
         c->Awake();
     }
@@ -15,7 +15,7 @@ void Object::Awake()
 
 void Object::Start()
 {
-    for (auto& c : components)
+    for (auto c : components)
     {
         c->Start();
     }
@@ -23,7 +23,7 @@ void Object::Start()
 
 void Object::Update(float timeDelta)
 {
-    for (const auto& component : components)
+    for (const auto component : components)
     {
         component->Update(timeDelta);
     }
@@ -31,7 +31,7 @@ void Object::Update(float timeDelta)
 
 void Object::LateUpdate(float timeDelta)
 {
-    for (const auto& component : components)
+    for (const auto component : components)
     {
         component->LateUpdate(timeDelta);
     }
@@ -39,10 +39,7 @@ void Object::LateUpdate(float timeDelta)
 
 void Object::Draw(Window& window)
 {
-    for (const auto& component : components)
-    {
-        component->Draw(window);
-    }
+    drawable->Draw(window);
 }
 
 void Object::QueueForRemoval()
@@ -52,5 +49,10 @@ void Object::QueueForRemoval()
 
 bool Object::IsQueuedForRemoval()
 {
-    return  queuedForRemoval;
+    return queuedForRemoval;
+}
+
+std::shared_ptr<C_Drawable> Object::GetDrawable()
+{
+    return drawable;
 }

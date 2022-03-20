@@ -6,6 +6,7 @@
 #include "Window.hpp"
 #include "Component.hpp"
 #include "C_Transform.hpp"
+#include "C_Drawable.hpp"
 
 class Object
 {
@@ -23,6 +24,7 @@ public:
     {
         static_assert(std::is_base_of<Component, T>::value, "T must derive from Component");
 
+        //TODO: allow us to add more than one component, implement getcomponents
         // Check that we don't already have a component of this type.
         for (auto& exisitingComponent : components)
         {
@@ -33,7 +35,13 @@ public:
         }
 
         std::shared_ptr<T> newComponent = std::make_shared<T>(this);
+
         components.push_back(newComponent);
+
+        if (std::dynamic_pointer_cast<C_Drawable>(newComponent))
+        {
+            drawable = std::dynamic_pointer_cast<C_Drawable>(newComponent);
+        }
 
         return newComponent;
     };
@@ -54,6 +62,8 @@ public:
         return nullptr;
     };
 
+    std::shared_ptr<C_Drawable> GetDrawable();
+
     bool IsQueuedForRemoval();
     void QueueForRemoval();
 
@@ -61,6 +71,7 @@ public:
 
 private:
     std::vector<std::shared_ptr<Component>> components;
+    std::shared_ptr<C_Drawable> drawable;
     bool queuedForRemoval;
 };
 

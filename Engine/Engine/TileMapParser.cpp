@@ -18,7 +18,7 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& fil
     doc.parse<0>(xmlFile.data());
     xml_node<>* rootNode = doc.first_node("map");
 
-    std::shared_ptr<MapTiles> tiles = BuildMapTiles(rootNode);
+    std::shared_ptr<MapTiles> map = BuildMapTiles(rootNode);
 
     int tileSizeX = std::atoi(rootNode->first_attribute("tilewidth")->value());
     int tileSizeY = std::atoi(rootNode->first_attribute("tileheight")->value());
@@ -27,9 +27,11 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& fil
 
     std::vector<std::shared_ptr<Object>> tileObjects;
 
-    for (const auto& layer : *tiles)
+    int layerCount = map->size() - 1;
+
+    for (const auto layer : *map)
     {
-        for (const auto& tile : *layer.second)
+        for (const auto tile : layer.second->tiles)
         {
             std::shared_ptr<TileInfo> tileInfo = tile->properties;
 
@@ -37,11 +39,15 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& fil
 
             const unsigned int tileScale = 3;
 
-            auto sprite = tileObject->AddComponent<C_Sprite>();
-            sprite->SetTextureAllocator(&textureAllocator);
-            sprite->Load(tileInfo->textureID);
-            sprite->SetTextureRect(tileInfo->textureRect);
-            sprite->SetScale(tileScale, tileScale);
+            if (layer.second->isVisible)
+            {
+                auto sprite = tileObject->AddComponent<C_Sprite>();
+                sprite->SetTextureAllocator(&textureAllocator);
+                sprite->Load(tileInfo->textureID);
+                sprite->SetTextureRect(tileInfo->textureRect);
+                sprite->SetScale(tileScale, tileScale);
+                sprite->SetSortOrder(layerCount);
+            }
 
             float x = tile->x * tileSizeX * tileScale + offset.x;
             float y = tile->y * tileSizeY * tileScale + offset.y;
@@ -49,49 +55,56 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& fil
 
             tileObjects.emplace_back(tileObject);
         }
+
+        layerCount--;
     }
 
     return tileObjects;
 }
 
-std::shared_ptr<TileSheetData> TileMapParser::BuildTileSheetData(xml_node<>* rootNode)
+std::shared_ptr<TileSheets> TileMapParser::BuildTileSheetData(xml_node<>* rootNode)
 {
-    TileSheetData tileSheetData;
+    TileSheets tileSheets;
 
-    xml_node<>* tilesheetNode = rootNode->first_node("tileset");
-
-    //TODO: add error checking to ensure these values actually exist.
-    //TODO: add support for multiple tile sets.
-    int firstid = std::atoi(tilesheetNode->first_attribute("firstgid")->value()); //TODO: implement this.
-    tileSheetData.tileSize.x = std::atoi(tilesheetNode->first_attribute("tilewidth")->value());
-    tileSheetData.tileSize.y = std::atoi(tilesheetNode->first_attribute("tileheight")->value());
-    int tileCount = std::atoi(tilesheetNode->first_attribute("tilecount")->value());
-    tileSheetData.columns = std::atoi(tilesheetNode->first_attribute("columns")->value());
-    tileSheetData.rows = tileCount / tileSheetData.columns;
-
-    xml_node<>* imageNode = tilesheetNode->first_node("image");
-    tileSheetData.textureId = textureAllocator.Add(std::string(imageNode->first_attribute("source")->value()));
-    //TODO: add error checking - we want to output a message if the texture is not found:
-    /*
-    if(tileSheetData.textureId < 0)
+    for (xml_node<>* tilesheetNode = rootNode->first_node("tileset"); tilesheetNode; tilesheetNode = tilesheetNode->next_sibling("tileset"))
     {
-        // Texture not found.
+        TileSheetData tileSheetData;
+
+        //TODO: add error checking to ensure these values actually exist.
+        int firstid = std::atoi(tilesheetNode->first_attribute("firstgid")->value());
+        tileSheetData.tileSize.x = std::atoi(tilesheetNode->first_attribute("tilewidth")->value());
+        tileSheetData.tileSize.y = std::atoi(tilesheetNode->first_attribute("tileheight")->value());
+        int tileCount = std::atoi(tilesheetNode->first_attribute("tilecount")->value());
+        tileSheetData.columns = std::atoi(tilesheetNode->first_attribute("columns")->value());
+        tileSheetData.rows = tileCount / tileSheetData.columns;
+
+        xml_node<>* imageNode = tilesheetNode->first_node("image");
+        tileSheetData.textureId = textureAllocator.Add(std::string(imageNode->first_attribute("source")->value()));
+        //TODO: add error checking - we want to output a message if the texture is not found:
+        /*
+         if(tileSheetData.textureId < 0)
+         {
+         // Texture not found.
+         }
+         */
+
+        tileSheetData.imageSize.x = std::atoi(imageNode->first_attribute("width")->value());
+        tileSheetData.imageSize.y = std::atoi(imageNode->first_attribute("height")->value());
+
+        tileSheets.insert(std::make_pair(firstid, std::make_shared<TileSheetData>(tileSheetData)));
+
     }
-    */
 
-    tileSheetData.imageSize.x = std::atoi(imageNode->first_attribute("width")->value());
-    tileSheetData.imageSize.y = std::atoi(imageNode->first_attribute("height")->value());
-
-    return std::make_shared<TileSheetData>(tileSheetData);
+    return std::make_shared<TileSheets>(tileSheets);
 }
 
 std::shared_ptr<MapTiles> TileMapParser::BuildMapTiles(xml_node<>* rootNode)
 {
-    std::shared_ptr<TileSheetData> tileSheetData = BuildTileSheetData(rootNode);
+    std::shared_ptr<TileSheets> tileSheetData = BuildTileSheetData(rootNode);
 
     std::shared_ptr<MapTiles> map = std::make_shared<MapTiles>();
 
-    for (xml_node<>* node = rootNode->first_node("layer"); node; node = node->next_sibling())
+    for (xml_node<>* node = rootNode->last_node("layer"); node; node = node->previous_sibling("layer"))
     {
         std::pair<std::string, std::shared_ptr<Layer>> mapLayer = BuildLayer(node, tileSheetData);
         map->emplace(mapLayer);
@@ -100,9 +113,8 @@ std::shared_ptr<MapTiles> TileMapParser::BuildMapTiles(xml_node<>* rootNode)
     return map;
 }
 
-std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_node<>* layerNode, std::shared_ptr<TileSheetData> tileSheetData)
+std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_node<>* layerNode, std::shared_ptr<TileSheets> tileSheets)
 {
-
     TileSet tileSet;
     std::shared_ptr<Layer> layer = std::make_shared<Layer>();
 
@@ -129,11 +141,11 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
 
             //TODO: add additional check to confirm that the character removals have worked:
             /*
-            if(!Utilities::IsInteger(substr))
-            {
-                //String is still not integer.
-            }
-            */
+             if(!Utilities::IsInteger(substr))
+             {
+             //String is still not integer.
+             }
+             */
         }
 
         int tileId = std::stoi(substr);
@@ -143,10 +155,28 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
             auto itr = tileSet.find(tileId);
             if (itr == tileSet.end())
             {
-                int textureX = tileId % tileSheetData->columns - 1;
-                int textureY = tileId / tileSheetData->columns;
+                std::shared_ptr<TileSheetData> tileSheet;
 
-                std::shared_ptr<TileInfo> tileInfo = std::make_shared<TileInfo>(tileSheetData->textureId, tileId, sf::IntRect(textureX * tileSheetData->tileSize.x, textureY * tileSheetData->tileSize.y, tileSheetData->tileSize.x, tileSheetData->tileSize.y));
+                for (auto iter = tileSheets->rbegin(); iter != tileSheets->rend(); ++iter)
+                {
+                    if (tileId >= iter->first)
+                    {
+                        // We know the tile belongs to this tileset.
+                        tileSheet = iter->second;
+                        break;
+                    }
+                }
+
+                if (!tileSheet)
+                {
+                    //TODO: output error message.
+                    continue;
+                }
+
+                int textureX = tileId % tileSheet->columns - 1;
+                int textureY = tileId / tileSheet->columns;
+
+                std::shared_ptr<TileInfo> tileInfo = std::make_shared<TileInfo>(tileSheet->textureId, tileId, sf::IntRect(textureX * tileSheet->tileSize.x, textureY * tileSheet->tileSize.y, tileSheet->tileSize.x, tileSheet->tileSize.y));
 
                 itr = tileSet.insert(std::make_pair(tileId, tileInfo)).first;
             }
@@ -158,13 +188,21 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
             tile->x = count % width - 1;
             tile->y = count / width;
 
-
-            layer->emplace_back(tile);
+            layer->tiles.emplace_back(tile);
         }
 
         count++;
     }
 
     const std::string layerName = layerNode->first_attribute("name")->value();
+
+    bool layerVisible = true;
+    xml_attribute<>* visibleAttribute = layerNode->first_attribute("visible");
+    if (visibleAttribute)
+    {
+        layerVisible = std::stoi(visibleAttribute->value());
+    }
+    layer->isVisible = layerVisible;
+
     return std::make_pair(layerName, layer);
 }

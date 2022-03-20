@@ -154,6 +154,9 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BitMask.cpp" />
     <ClCompile Include="C_Animation.cpp" />
+    <ClCompile Include="C_BoxCollider.cpp" />
+    <ClCompile Include="C_Collider.cpp" />
+    <ClCompile Include="C_Drawable.cpp" />
     <ClCompile Include="C_KeyboardMovement.cpp" />
     <ClCompile Include="C_Sprite.cpp" />
     <ClCompile Include="C_Transform.cpp" />
@@ -165,6 +168,7 @@
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneSplashScreen.cpp" />
     <ClCompile Include="SceneStateMachine.cpp" />
+    <ClCompile Include="S_Drawable.cpp" />
     <ClCompile Include="TileMapParser.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WorkingDirectory.cpp" />
@@ -174,6 +178,9 @@
     <ClInclude Include="BitMask.hpp" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="C_Animation.hpp" />
+    <ClInclude Include="C_BoxCollider.hpp" />
+    <ClInclude Include="C_Collider.hpp" />
+    <ClInclude Include="C_Drawable.hpp" />
     <ClInclude Include="C_KeyboardMovement.hpp" />
     <ClInclude Include="C_Sprite.hpp" />
     <ClInclude Include="C_Transform.hpp" />
@@ -191,6 +198,7 @@
     <ClInclude Include="SceneGame.hpp" />
     <ClInclude Include="SceneSplashScreen.hpp" />
     <ClInclude Include="SceneStateMachine.hpp" />
+    <ClInclude Include="S_Drawable.hpp" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMapParser.hpp" />
     <ClInclude Include="Utilities.h" />
@@ -201,10 +209,12 @@
     <Image Include="charSprite.png" />
     <Image Include="geralt-thumbs-up.png" />
     <Image Include="Jungle Tiles.png" />
+    <Image Include="Red Square.png" />
     <Image Include="Viking.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Test Map 1.tmx" />
+    <None Include="Test Map 2.tmx" />
     <None Include="Viking.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
