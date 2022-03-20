@@ -11,7 +11,9 @@
 //TODO: implement collision layers.
 enum class CollisionLayer
 {
-    Default = 0
+    Default = 1,    // bit 0
+    Player = 2,     // bit 1
+    Tile = 3        // bit 2
 };
 
 struct Manifold

@@ -13,6 +13,7 @@
 #include "Utilities.h"
 #include "Object.hpp"
 #include "C_Sprite.hpp"
+#include "C_BoxCollider.hpp"
 
 using namespace rapidxml;
 
