@@ -165,6 +165,7 @@
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneSplashScreen.cpp" />
     <ClCompile Include="SceneStateMachine.cpp" />
+    <ClCompile Include="TileMapParser.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WorkingDirectory.cpp" />
   </ItemGroup>
@@ -181,20 +182,29 @@
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="ObjectCollection.hpp" />
+    <ClInclude Include="rapidxml.hpp" />
+    <ClInclude Include="rapidxml_iterators.hpp" />
+    <ClInclude Include="rapidxml_print.hpp" />
+    <ClInclude Include="rapidxml_utils.hpp" />
     <ClInclude Include="ResourceAllocator.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="SceneGame.hpp" />
     <ClInclude Include="SceneSplashScreen.hpp" />
     <ClInclude Include="SceneStateMachine.hpp" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileMapParser.hpp" />
+    <ClInclude Include="Utilities.h" />
     <ClInclude Include="Window.hpp" />
     <ClInclude Include="WorkingDirectory.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="charSprite.png" />
     <Image Include="geralt-thumbs-up.png" />
+    <Image Include="Jungle Tiles.png" />
     <Image Include="Viking.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Test Map 1.tmx" />
     <None Include="Viking.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

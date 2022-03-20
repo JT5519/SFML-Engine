@@ -7,41 +7,41 @@ Object::Object() : queuedForRemoval(false)
 
 void Object::Awake()
 {
-    for (int i = components.size() - 1; i >= 0; i--)
+    for (auto& c : components)
     {
-        components[i]->Awake();
+        c->Awake();
     }
 }
 
 void Object::Start()
 {
-    for (int i = components.size() - 1; i >= 0; i--)
+    for (auto& c : components)
     {
-        components[i]->Start();
+        c->Start();
     }
 }
 
 void Object::Update(float timeDelta)
 {
-    for (int i = components.size() - 1; i >= 0; i--)
+    for (const auto& component : components)
     {
-        components[i]->Update(timeDelta);
+        component->Update(timeDelta);
     }
 }
 
 void Object::LateUpdate(float timeDelta)
 {
-    for (int i = components.size() - 1; i >= 0; i--)
+    for (const auto& component : components)
     {
-        components[i]->LateUpdate(timeDelta);
+        component->LateUpdate(timeDelta);
     }
 }
 
 void Object::Draw(Window& window)
 {
-    for (int i = components.size() - 1; i >= 0; i--)
+    for (const auto& component : components)
     {
-        components[i]->Draw(window);
+        component->Draw(window);
     }
 }
 
