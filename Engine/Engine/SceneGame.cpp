@@ -1,6 +1,6 @@
 #include "SceneGame.hpp"
 
-SceneGame::SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture>& textureAllocator) : workingDir(workingDir), textureAllocator(textureAllocator), mapParser(textureAllocator) { }
+SceneGame::SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture>& textureAllocator, Window& window) : workingDir(workingDir), textureAllocator(textureAllocator), mapParser(textureAllocator), window(window) { }
 
 void SceneGame::OnCreate()
 {
@@ -75,24 +75,23 @@ void SceneGame::OnCreate()
     walkAnimation->AddFrame(vikingTextureID, 400, 435, frameWidth, frameHeight, walkAnimFrameSeconds);
     animation->AddAnimation(AnimationState::Walk, walkAnimation);
 
-
     auto collider = player->AddComponent<C_BoxCollider>();
     collider->SetSize(frameWidth * 0.4f, frameHeight * 0.5f);
     collider->SetOffset(0.f, 14.f);
     collider->SetLayer(CollisionLayer::Player);
 
+    auto camera = player->AddComponent<C_Camera>();
+    camera->SetWindow(&window);
+
     objects.Add(player);
 
     // You will need to play around with this offset until it fits the level in at your chosen resolution. This worls for 1920 * 1080.
     // In future we will remove this hardcoded offset when we look at allowing the player to change resolutions.
-
     sf::Vector2i mapOffset(-160, 180);
     //sf::Vector2i mapOffset(128, 128);
     std::vector<std::shared_ptr<Object>> levelTiles = mapParser.Parse(workingDir.Get() + "Test Map 1.tmx", mapOffset);
 
     objects.Add(levelTiles);
-
-
 }
 
 void SceneGame::OnDestroy()
@@ -121,5 +120,5 @@ void SceneGame::Draw(Window& window)
 {
     objects.Draw(window);
 
-    Debug::Draw(window);
+    //Debug::Draw(window);
 }

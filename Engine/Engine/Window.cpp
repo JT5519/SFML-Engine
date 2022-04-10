@@ -53,12 +53,22 @@ sf::Vector2f Window::GetCentre() const
 
 sf::FloatRect Window::GetViewSpace() const
 {
-    sf::Vector2f viewCenter(window.getView().getCenter());
-    sf::Vector2f viewSize(window.getView().getSize());
-    sf::Vector2f viewSizeHalf(viewSize.x / 2, viewSize.y / 2);
+    const sf::View& view = GetView();
+    const sf::Vector2f& viewCenter = view.getCenter();
+    const sf::Vector2f& viewSize = view.getSize();
+    sf::Vector2f viewSizeHalf(viewSize.x * 0.5f, viewSize.y * 0.5f);
     sf::FloatRect viewSpace(viewCenter - viewSizeHalf, viewSize);
-
     return viewSpace;
+}
+
+const sf::View& Window::GetView() const
+{
+    return window.getView();
+}
+
+void Window::SetView(const sf::View& view)
+{
+    window.setView(view);
 }
 
 bool Window::IsOpen() const

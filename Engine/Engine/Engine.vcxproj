@@ -155,6 +155,7 @@
     <ClCompile Include="BitMask.cpp" />
     <ClCompile Include="C_Animation.cpp" />
     <ClCompile Include="C_BoxCollider.cpp" />
+    <ClCompile Include="C_Camera.cpp" />
     <ClCompile Include="C_Collider.cpp" />
     <ClCompile Include="C_Drawable.cpp" />
     <ClCompile Include="C_InstanceID.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="C_Animation.hpp" />
     <ClInclude Include="C_BoxCollider.hpp" />
+    <ClInclude Include="C_Camera.hpp" />
     <ClInclude Include="C_Collider.hpp" />
     <ClInclude Include="C_Drawable.hpp" />
     <ClInclude Include="C_InstanceID.hpp" />

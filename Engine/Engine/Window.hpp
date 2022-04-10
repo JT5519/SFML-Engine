@@ -18,6 +18,9 @@ public:
     sf::Vector2f GetCentre() const;
     sf::FloatRect GetViewSpace() const;
 
+    const sf::View& GetView() const;
+    void SetView(const sf::View& view);
+
     bool IsOpen() const;
 
 private:
