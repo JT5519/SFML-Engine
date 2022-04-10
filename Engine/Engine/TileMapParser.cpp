@@ -47,6 +47,7 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& fil
                 sprite->SetTextureRect(tileInfo->textureRect);
                 sprite->SetScale(tileScale, tileScale);
                 sprite->SetSortOrder(layerCount);
+                sprite->SetDrawLayer(DrawLayer::Foreground);
             }
 
             float x = tile->x * tileSizeX * tileScale + offset.x;
@@ -106,6 +107,8 @@ std::shared_ptr<TileSheets> TileMapParser::BuildTileSheetData(xml_node<>* rootNo
         tileSheets.insert(std::make_pair(firstid, std::make_shared<TileSheetData>(tileSheetData)));
 
     }
+
+    //TODO: we should ensure tilesets are sorted by id ascending.
 
     return std::make_shared<TileSheets>(tileSheets);
 }

@@ -6,50 +6,78 @@ void S_Drawable::Add(std::vector<std::shared_ptr<Object>>& objects)
     {
         Add(o);
     }
-
-    Sort();
 }
 
 void S_Drawable::ProcessRemovals()
 {
-    auto objIterator = drawables.begin();
-    while (objIterator != drawables.end())
+    for (auto& layer : drawables)
     {
-        auto obj = *objIterator;
+        auto objIterator = layer.second.begin();
+        while (objIterator != layer.second.end())
+        {
+            auto obj = *objIterator;
 
-        if (obj->IsQueuedForRemoval())
-        {
-            objIterator = drawables.erase(objIterator);
-        }
-        else
-        {
-            ++objIterator;
+            if (!obj->ContinueToDraw())
+            {
+                objIterator = layer.second.erase(objIterator);
+            }
+            else
+            {
+                ++objIterator;
+            }
         }
     }
 }
 
 void S_Drawable::Add(std::shared_ptr<Object> object)
 {
-    std::shared_ptr<C_Drawable> draw = object->GetDrawable();
+    std::shared_ptr<C_Drawable> objectsDrawable = object->GetDrawable();
 
-    if (draw)
+    if (objectsDrawable)
     {
-        drawables.emplace_back(object);
+        DrawLayer layer = objectsDrawable->GetDrawLayer();
+
+        auto itr = drawables.find(layer);
+
+        if (itr != drawables.end())
+        {
+            drawables[layer].push_back(objectsDrawable);
+        }
+        else
+        {
+            std::vector<std::shared_ptr<C_Drawable>> objs;
+            objs.push_back(objectsDrawable);
+
+            drawables.insert(std::make_pair(layer, objs));
+        }
     }
+}
+
+bool S_Drawable::LayerSort(std::shared_ptr<C_Drawable> a, std::shared_ptr<C_Drawable> b)
+{
+    return a->GetSortOrder() < b->GetSortOrder();
 }
 
 void S_Drawable::Sort()
 {
-    std::sort(drawables.begin(), drawables.end(), [](std::shared_ptr<Object> a, std::shared_ptr<Object> b) -> bool
+    for (auto& layer : drawables)
+    {
+        if (!std::is_sorted(layer.second.begin(), layer.second.end(), LayerSort))
         {
-            return a->GetDrawable()->GetSortOrder() < b->GetDrawable()->GetSortOrder();
-        });
+            std::sort(layer.second.begin(), layer.second.end(), LayerSort);
+        }
+    }
 }
 
 void S_Drawable::Draw(Window& window)
 {
-    for (auto& d : drawables)
+    Sort();
+
+    for (auto& layer : drawables)
     {
-        d->Draw(window);
+        for (auto& drawable : layer.second)
+        {
+            drawable->Draw(window);
+        }
     }
 }

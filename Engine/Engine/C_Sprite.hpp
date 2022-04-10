@@ -1,6 +1,8 @@
 #ifndef C_Sprite_hpp
 #define C_Sprite_hpp
 
+#include <math.h>
+
 #include "Component.hpp"
 #include "C_Transform.hpp"
 #include "ResourceAllocator.hpp"
@@ -18,6 +20,7 @@ public:
 
     void LateUpdate(float deltaTime) override;
     void Draw(Window& window) override;
+    bool ContinueToDraw() const override;
 
     void SetTextureRect(int x, int y, int width, int height);
     void SetTextureRect(const sf::IntRect& rect);
