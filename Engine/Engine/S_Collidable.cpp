@@ -1,6 +1,6 @@
 #include "S_Collidable.hpp"
 
-S_Collidable::S_Collidable()
+S_Collidable::S_Collidable() : collisionTree(5, 5, 0, { 0, 0, 4200, 1080 }, nullptr)
 {
     Bitmask defaultCollisions;
     defaultCollisions.SetBit((int)CollisionLayer::Default);

@@ -4,14 +4,16 @@
 #include <array>
 #include <iostream>
 #include <functional>
-#include <signal.h>
 #include <SFML/Graphics.hpp>
 
 #include "Window.hpp"
+#include "Input.hpp"
 
 class Debug
 {
 public:
+    static void HandleCameraZoom(Window& window, Input& input);
+
     static void Draw(Window& window);
 
     static void DrawRect(const sf::FloatRect& rect, sf::Color colour = sf::Color::White);

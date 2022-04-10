@@ -3,6 +3,22 @@
 std::vector<sf::RectangleShape> Debug::rects = {};
 std::vector<std::array<sf::Vertex, 2>> Debug::lines = {};
 
+void Debug::HandleCameraZoom(Window& window, Input& input)
+{
+    if (input.IsKeyUp(Input::Key::LBracket))
+    {
+        sf::View view = window.GetView();
+        view.zoom(1.1f);
+        window.SetView(view);
+    }
+    else if (input.IsKeyUp(Input::Key::RBracket))
+    {
+        sf::View view = window.GetView();
+        view.zoom(0.9f);
+        window.SetView(view);
+    }
+}
+
 void Debug::Draw(Window& window)
 {
     for (auto& r : rects)
@@ -49,5 +65,4 @@ void Debug::LogWarning(const std::string& msg)
 void Debug::LogError(const std::string& msg)
 {
     std::cout << "ERROR: " << msg << std::endl;
-    //raise(SIGTRAP);
 }
