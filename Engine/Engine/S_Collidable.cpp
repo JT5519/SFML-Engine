@@ -55,7 +55,6 @@ void S_Collidable::ProcessRemovals()
         {
             if ((*itr)->owner->IsQueuedForRemoval())
             {
-                collisionTree.Remove(*itr);
                 itr = layer.second.erase(itr);
             }
             else
@@ -118,6 +117,14 @@ void S_Collidable::Resolve()
 
                     if (m.colliding)
                     {
+                        auto collisionPair = objectsColliding.emplace(std::make_pair(collidable, collision));
+
+                        if (collisionPair.second)
+                        {
+                            collidable->owner->OnCollisionEnter(collision);
+                            collision->owner->OnCollisionEnter(collidable);
+                        }
+
                         Debug::DrawRect(collision->GetCollidable(), sf::Color::Red);
                         Debug::DrawRect(collidable->GetCollidable(), sf::Color::Red);
 
@@ -136,15 +143,15 @@ void S_Collidable::Resolve()
                     }
                 }
             }
-
         }
     }
 }
 
-
 void S_Collidable::Update()
 {
     collisionTree.DrawDebug();
+
+    ProcessCollidingObjects();
 
     collisionTree.Clear();
     for (auto maps = collidables.begin(); maps != collidables.end(); ++maps)
@@ -156,4 +163,45 @@ void S_Collidable::Update()
     }
 
     Resolve();
+}
+
+void S_Collidable::ProcessCollidingObjects()
+{
+    auto itr = objectsColliding.begin();
+    while (itr != objectsColliding.end())
+    {
+        auto pair = *itr;
+
+        std::shared_ptr<C_BoxCollider> first = pair.first;
+        std::shared_ptr<C_BoxCollider> second = pair.second;
+
+        if (first->owner->IsQueuedForRemoval() || second->owner->IsQueuedForRemoval())
+        {
+            first->owner->OnCollisionExit(second);
+            second->owner->OnCollisionExit(first);
+
+            itr = objectsColliding.erase(itr);
+
+        }
+        else
+        {
+            Manifold m = first->Intersects(second);
+
+            if (!m.colliding)
+            {
+                first->owner->OnCollisionExit(second);
+                second->owner->OnCollisionExit(first);
+
+                itr = objectsColliding.erase(itr);
+            }
+            else
+            {
+                first->owner->OnCollisionStay(second);
+                second->owner->OnCollisionStay(first);
+
+                ++itr;
+            }
+        }
+
+    }
 }
