@@ -52,7 +52,7 @@ void SceneGame::OnCreate()
     /**********************
      * Walking Animations *
      **********************/
-    const bool walkAnimationLooped = false;
+    const bool walkAnimationLooped = true;
     const int walkingFrameCount = 9;
     const float delayBetweenWalkingFramesSecs = 0.1f;
 
@@ -112,6 +112,9 @@ void SceneGame::OnCreate()
 
     auto projectileAttack = player->AddComponent<C_ProjectileAttack>();
     projectileAttack->SetInput(&input);
+    projectileAttack->SetObjectCollection(&objects);
+    projectileAttack->SetWorkingDirectory(&workingDir);
+    projectileAttack->SetTextureAllocator(&textureAllocator);
 
     player->AddComponent<C_Velocity>();
 
