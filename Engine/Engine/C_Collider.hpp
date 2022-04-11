@@ -11,7 +11,8 @@ enum class CollisionLayer
 {
     Default = 1,    // bit 0
     Player = 2,     // bit 1
-    Tile = 3        // bit 2
+    Tile = 3,       // bit 2
+    Projectile = 4
 };
 
 struct Manifold

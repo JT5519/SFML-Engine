@@ -224,23 +224,6 @@
     <ClInclude Include="Window.hpp" />
     <ClInclude Include="WorkingDirectory.hpp" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="charSprite.png" />
-    <Image Include="geralt-thumbs-up.png" />
-    <Image Include="Jungle Tiles.png" />
-    <Image Include="Player.png" />
-    <Image Include="Red Square.png" />
-    <Image Include="Viking.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="City.tmx" />
-    <None Include="House Exterior.tmx" />
-    <None Include="House Interior.tmx" />
-    <None Include="Path.tmx" />
-    <None Include="Test Map 1.tmx" />
-    <None Include="Test Map 2.tmx" />
-    <None Include="Viking.json" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

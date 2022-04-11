@@ -30,10 +30,13 @@ private:
     void SpawnProjectile();
 
     static std::unordered_map<FacingDirection, sf::IntRect, EnumClassHash> textureDirectionBindings;
+    static std::unordered_map<FacingDirection, sf::Vector2f, EnumClassHash> offsetDirectionBindings;
+    static std::unordered_map<FacingDirection, sf::Vector2f, EnumClassHash> velocityDirectionBindings;
 
     std::shared_ptr<C_Animation> animation;
     std::shared_ptr<C_Direction> direction;
     int projectileTextureID;
+    float projectileVelocity;
 };
 
 #endif /* C_ProjectileAttack_hpp */

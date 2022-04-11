@@ -12,6 +12,10 @@ S_Collidable::S_Collidable() : collisionTree(5, 5, 0, { 0, 0, 4200, 1080 }, null
     playerCollisions.SetBit((int)CollisionLayer::Default);
     playerCollisions.SetBit((int)CollisionLayer::Tile);
     collisionLayers.insert(std::make_pair(CollisionLayer::Player, playerCollisions));
+
+    Bitmask projectileCollisions;
+    projectileCollisions.SetBit((int)CollisionLayer::Tile);
+    collisionLayers.insert(std::make_pair(CollisionLayer::Projectile, projectileCollisions));
 }
 
 void S_Collidable::Add(std::vector<std::shared_ptr<Object>>& objects)
