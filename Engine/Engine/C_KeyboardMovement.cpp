@@ -9,11 +9,6 @@ void C_KeyboardMovement::Awake()
     velocity = owner->GetComponent<C_Velocity>();
 }
 
-void C_KeyboardMovement::SetInput(Input* input)
-{
-    this->input = input;
-}
-
 void C_KeyboardMovement::SetMovementSpeed(float moveSpeed)
 {
     this->moveSpeed = moveSpeed;
@@ -21,11 +16,6 @@ void C_KeyboardMovement::SetMovementSpeed(float moveSpeed)
 
 void C_KeyboardMovement::Update(float deltaTime)
 {
-    if (input == nullptr)
-    {
-        return;
-    }
-
     //TODO: keyboardmovement should not interact with animation component.
     if (animation->GetAnimationState() == AnimationState::Projectile)
     {
@@ -34,21 +24,21 @@ void C_KeyboardMovement::Update(float deltaTime)
     }
 
     float xMove = 0.f;
-    if (input->IsKeyPressed(Input::Key::Left))
+    if (owner->context->input->IsKeyPressed(Input::Key::Left))
     {
         xMove = -moveSpeed;
     }
-    else if (input->IsKeyPressed(Input::Key::Right))
+    else if (owner->context->input->IsKeyPressed(Input::Key::Right))
     {
         xMove = moveSpeed;
     }
 
     float yMove = 0.f;
-    if (input->IsKeyPressed(Input::Key::Up))
+    if (owner->context->input->IsKeyPressed(Input::Key::Up))
     {
         yMove = -moveSpeed;
     }
-    else if (input->IsKeyPressed(Input::Key::Down))
+    else if (owner->context->input->IsKeyPressed(Input::Key::Down))
     {
         yMove = moveSpeed;
     }

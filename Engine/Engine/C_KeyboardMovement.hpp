@@ -13,14 +13,12 @@ public:
 
     void Awake() override;
 
-    void SetInput(Input* input);
     void SetMovementSpeed(float moveSpeed);
 
     void Update(float deltaTime) override;
 
 private:
     float moveSpeed;
-    Input* input;
 
     std::shared_ptr<C_Animation> animation;
     std::shared_ptr<C_Velocity> velocity;

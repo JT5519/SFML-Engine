@@ -213,6 +213,7 @@
     <ClInclude Include="SceneGame.hpp" />
     <ClInclude Include="SceneSplashScreen.hpp" />
     <ClInclude Include="SceneStateMachine.hpp" />
+    <ClInclude Include="SharedContext.hpp" />
     <ClInclude Include="S_Collidable.hpp" />
     <ClInclude Include="S_Drawable.hpp" />
     <ClInclude Include="Tile.h" />

@@ -40,7 +40,7 @@ using TileSheets = std::map<int, std::shared_ptr<TileSheetData>>;
 class TileMapParser
 {
 public:
-    TileMapParser(ResourceAllocator<sf::Texture>& textureAllocator);
+    TileMapParser(ResourceAllocator<sf::Texture>& textureAllocator, SharedContext& context);
 
     std::vector<std::shared_ptr<Object>> Parse(const std::string& file, sf::Vector2i offset);
 
@@ -50,6 +50,7 @@ private:
     std::pair<std::string, std::shared_ptr<Layer>> BuildLayer(xml_node<>* layerNode, std::shared_ptr<TileSheets> tileSheets);
 
     ResourceAllocator<sf::Texture>& textureAllocator;
+    SharedContext& context;
 };
 
 

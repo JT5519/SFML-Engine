@@ -218,6 +218,9 @@
     <ClInclude Include="C_MovementAnimation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SharedContext.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="charSprite.png">

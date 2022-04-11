@@ -38,6 +38,7 @@ private:
     ObjectCollection objects;
     TileMapParser mapParser;
     Window& window;
+    SharedContext context;
 };
 
 #endif /* SceneGame_hpp */

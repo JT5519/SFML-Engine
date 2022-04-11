@@ -9,11 +9,6 @@ public:
     C_Camera(Object* owner);
 
     void LateUpdate(float deltaTime) override;
-
-    void SetWindow(Window* gameWindow);
-
-private:
-    Window* window;
 };
 
 #endif /* C_Camera_hpp */

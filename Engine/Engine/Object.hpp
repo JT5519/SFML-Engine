@@ -8,11 +8,12 @@
 #include "C_Transform.hpp"
 #include "C_Drawable.hpp"
 #include "C_InstanceID.hpp"
+#include "SharedContext.hpp"
 
 class Object
 {
 public:
-    Object();
+    Object(SharedContext* context);
 
     void Awake(); // Called when object created. Use to ensure required components are present.
     void Start(); // Called after Awake method. Use to initialise variables.
@@ -68,6 +69,8 @@ public:
 
     std::shared_ptr<C_Transform> transform;
     std::shared_ptr<C_InstanceID> instanceID;
+
+    SharedContext* context;
 
 private:
     std::vector<std::shared_ptr<Component>> components;

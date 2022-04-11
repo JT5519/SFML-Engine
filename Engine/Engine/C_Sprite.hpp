@@ -13,8 +13,6 @@ class C_Sprite : public Component, public C_Drawable
 public:
     C_Sprite(Object* owner);
 
-    void SetTextureAllocator(ResourceAllocator<sf::Texture>* allocator);
-
     void Load(int id);
     void Load(const std::string& filePath);
 
@@ -28,7 +26,6 @@ public:
     void SetScale(float x, float y);
 
 private:
-    ResourceAllocator<sf::Texture>* allocator;
     sf::Sprite sprite;
     int currentTextureID;
 };

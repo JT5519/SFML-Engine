@@ -1,6 +1,6 @@
 #include "TileMapParser.hpp"
 
-TileMapParser::TileMapParser(ResourceAllocator<sf::Texture>& textureAllocator) : textureAllocator(textureAllocator) {}
+TileMapParser::TileMapParser(ResourceAllocator<sf::Texture>& textureAllocator, SharedContext& context) : textureAllocator(textureAllocator), context(context) {}
 
 std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& file, sf::Vector2i offset)
 {
@@ -35,14 +35,13 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& fil
         {
             std::shared_ptr<TileInfo> tileInfo = tile->properties;
 
-            std::shared_ptr<Object> tileObject = std::make_shared<Object>();
+            std::shared_ptr<Object> tileObject = std::make_shared<Object>(&context);
 
             const unsigned int tileScale = 2;
 
             if (layer.second->isVisible)
             {
                 auto sprite = tileObject->AddComponent<C_Sprite>();
-                sprite->SetTextureAllocator(&textureAllocator);
                 sprite->Load(tileInfo->textureID);
                 sprite->SetTextureRect(tileInfo->textureRect);
                 sprite->SetScale(tileScale, tileScale);

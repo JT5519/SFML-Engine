@@ -1,19 +1,23 @@
 #include "SceneGame.hpp"
 
-SceneGame::SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture>& textureAllocator, Window& window) : workingDir(workingDir), textureAllocator(textureAllocator), mapParser(textureAllocator), window(window) { }
+SceneGame::SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture>& textureAllocator, Window& window) : workingDir(workingDir), textureAllocator(textureAllocator), mapParser(textureAllocator, context), window(window) { }
 
 void SceneGame::OnCreate()
 {
-    std::shared_ptr<Object> player = std::make_shared<Object>();
+    context.input = &input;
+    context.objects = &objects;
+    context.workingDir = &workingDir;
+    context.textureAllocator = &textureAllocator;
+    context.window = &window;
+
+    std::shared_ptr<Object> player = std::make_shared<Object>(&context);
 
     player->transform->SetPosition(100, 700);
 
     auto sprite = player->AddComponent<C_Sprite>();
-    sprite->SetTextureAllocator(&textureAllocator);
     sprite->SetDrawLayer(DrawLayer::Entities);
 
-    auto movement = player->AddComponent<C_KeyboardMovement>();
-    movement->SetInput(&input);
+    player->AddComponent<C_KeyboardMovement>();
 
     auto animation = player->AddComponent<C_Animation>();
 
@@ -22,9 +26,7 @@ void SceneGame::OnCreate()
     const unsigned int frameWidth = 64;
     const unsigned int frameHeight = 64;
 
-
     const FacingDirection directions[4] = { FacingDirection::Up, FacingDirection::Left, FacingDirection::Down, FacingDirection::Right };
-
 
     /*******************
      * Idle Animations *
@@ -101,23 +103,14 @@ void SceneGame::OnCreate()
 
     animation->AddAnimation(AnimationState::Projectile, projectileAnimations);
 
-
     auto collider = player->AddComponent<C_BoxCollider>();
     collider->SetSize(frameWidth * 0.4f, frameHeight * 0.5f);
     collider->SetOffset(0.f, 14.f);
     collider->SetLayer(CollisionLayer::Player);
 
-    auto camera = player->AddComponent<C_Camera>();
-    camera->SetWindow(&window);
-
-    auto projectileAttack = player->AddComponent<C_ProjectileAttack>();
-    projectileAttack->SetInput(&input);
-    projectileAttack->SetObjectCollection(&objects);
-    projectileAttack->SetWorkingDirectory(&workingDir);
-    projectileAttack->SetTextureAllocator(&textureAllocator);
-
+    player->AddComponent<C_Camera>();
+    player->AddComponent<C_ProjectileAttack>();
     player->AddComponent<C_Velocity>();
-
     player->AddComponent<C_MovementAnimation>();
 
     objects.Add(player);
