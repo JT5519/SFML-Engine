@@ -17,6 +17,7 @@
 #include "C_ProjectileAttack.hpp"
 #include "C_Velocity.hpp"
 #include "C_MovementAnimation.hpp"
+#include "C_Direction.hpp"
 
 class SceneGame : public Scene
 {

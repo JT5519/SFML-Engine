@@ -112,6 +112,7 @@ void SceneGame::OnCreate()
     player->AddComponent<C_ProjectileAttack>();
     player->AddComponent<C_Velocity>();
     player->AddComponent<C_MovementAnimation>();
+    player->AddComponent<C_Direction>();
 
     objects.Add(player);
 

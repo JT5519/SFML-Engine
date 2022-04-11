@@ -157,6 +157,7 @@
     <ClCompile Include="C_BoxCollider.cpp" />
     <ClCompile Include="C_Camera.cpp" />
     <ClCompile Include="C_Collider.cpp" />
+    <ClCompile Include="C_Direction.cpp" />
     <ClCompile Include="C_Drawable.cpp" />
     <ClCompile Include="C_InstanceID.cpp" />
     <ClCompile Include="C_KeyboardMovement.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="C_BoxCollider.hpp" />
     <ClInclude Include="C_Camera.hpp" />
     <ClInclude Include="C_Collider.hpp" />
+    <ClInclude Include="C_Direction.hpp" />
     <ClInclude Include="C_Drawable.hpp" />
     <ClInclude Include="C_InstanceID.hpp" />
     <ClInclude Include="C_KeyboardMovement.hpp" />

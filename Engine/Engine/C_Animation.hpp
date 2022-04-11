@@ -4,6 +4,7 @@
 #include "Component.hpp"
 #include "Animation.hpp"
 #include "C_Sprite.hpp"
+#include "C_Direction.hpp"
 
 enum class AnimationState
 {
@@ -36,6 +37,7 @@ private:
     std::map<AnimationState, AnimationList> animations;
     std::pair<AnimationState, std::shared_ptr<Animation>> currentAnimation;
     FacingDirection currentDirection;
+    std::shared_ptr<C_Direction> direction;
 };
 
 #endif /* C_Animation_hpp */

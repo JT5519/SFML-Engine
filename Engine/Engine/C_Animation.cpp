@@ -7,10 +7,13 @@ currentAnimation(AnimationState::None, nullptr), currentDirection(FacingDirectio
 void C_Animation::Awake()
 {
     sprite = owner->GetComponent<C_Sprite>();
+    direction = owner->GetComponent<C_Direction>();
 }
 
 void C_Animation::Update(float deltaTime)
 {
+    SetAnimationDirection(direction->Get());
+
     if (currentAnimation.first != AnimationState::None)
     {
         bool newFrame = currentAnimation.second->UpdateFrame(deltaTime);
@@ -19,7 +22,6 @@ void C_Animation::Update(float deltaTime)
         {
             const FrameData* data = currentAnimation.second->GetCurrentFrame();
             sprite->Load(data->id);
-
             sprite->SetTextureRect(data->x, data->y, data->width, data->height);
         }
     }

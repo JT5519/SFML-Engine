@@ -18,32 +18,6 @@ void C_MovementAnimation::Update(float deltaTime)
         if (currentVel.x != 0.f || currentVel.y != 0.f)
         {
             animation->SetAnimationState(AnimationState::Walk);
-
-            float velXAbs = fabs(currentVel.x);
-            float velYAbs = fabs(currentVel.y);
-
-            if (velXAbs > velYAbs)
-            {
-                if (currentVel.x < 0)
-                {
-                    animation->SetAnimationDirection(FacingDirection::Left);
-                }
-                else
-                {
-                    animation->SetAnimationDirection(FacingDirection::Right);
-                }
-            }
-            else
-            {
-                if (currentVel.y < 0)
-                {
-                    animation->SetAnimationDirection(FacingDirection::Up);
-                }
-                else
-                {
-                    animation->SetAnimationDirection(FacingDirection::Down);
-                }
-            }
         }
         else
         {
