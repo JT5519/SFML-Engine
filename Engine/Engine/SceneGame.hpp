@@ -15,6 +15,8 @@
 #include "Debug.hpp"
 #include "C_Camera.hpp"
 #include "C_ProjectileAttack.hpp"
+#include "C_Velocity.hpp"
+#include "C_MovementAnimation.hpp"
 
 class SceneGame : public Scene
 {

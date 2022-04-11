@@ -109,6 +109,10 @@ void SceneGame::OnCreate()
     auto projectileAttack = player->AddComponent<C_ProjectileAttack>();
     projectileAttack->SetInput(&input);
 
+    player->AddComponent<C_Velocity>();
+
+    player->AddComponent<C_MovementAnimation>();
+
     objects.Add(player);
 
     // You will need to play around with this offset until it fits the level in at your chosen resolution. This worls for 1920 * 1080.

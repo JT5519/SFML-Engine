@@ -160,9 +160,11 @@
     <ClCompile Include="C_Drawable.cpp" />
     <ClCompile Include="C_InstanceID.cpp" />
     <ClCompile Include="C_KeyboardMovement.cpp" />
+    <ClCompile Include="C_MovementAnimation.cpp" />
     <ClCompile Include="C_ProjectileAttack.cpp" />
     <ClCompile Include="C_Sprite.cpp" />
     <ClCompile Include="C_Transform.cpp" />
+    <ClCompile Include="C_Velocity.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -190,9 +192,11 @@
     <ClInclude Include="C_Drawable.hpp" />
     <ClInclude Include="C_InstanceID.hpp" />
     <ClInclude Include="C_KeyboardMovement.hpp" />
+    <ClInclude Include="C_MovementAnimation.hpp" />
     <ClInclude Include="C_ProjectileAttack.hpp" />
     <ClInclude Include="C_Sprite.hpp" />
     <ClInclude Include="C_Transform.hpp" />
+    <ClInclude Include="C_Velocity.hpp" />
     <ClInclude Include="Debug.hpp" />
     <ClInclude Include="EnumHash.hpp" />
     <ClInclude Include="Game.hpp" />

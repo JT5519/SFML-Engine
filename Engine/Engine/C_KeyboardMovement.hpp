@@ -3,7 +3,7 @@
 
 #include "Component.hpp"
 #include "Input.hpp"
-#include "C_Animation.hpp"
+#include "C_Velocity.hpp"
 
 class C_KeyboardMovement : public Component
 {
@@ -13,15 +13,16 @@ public:
     void Awake() override;
 
     void SetInput(Input* input);
-    void SetMovementSpeed(int moveSpeed);
+    void SetMovementSpeed(float moveSpeed);
 
     void Update(float deltaTime) override;
 
 private:
-    int moveSpeed;
+    float moveSpeed;
     Input* input;
 
-    std::shared_ptr<C_Animation> animation;
+    // Remove line to animation
+    std::shared_ptr<C_Velocity> velocity;
 };
 
 #endif /* C_KeyboardMovement_hpp */
