@@ -10,9 +10,13 @@ void C_ProjectileAttack::Awake()
 
 void C_ProjectileAttack::Update(float deltaTime)
 {
-    if (input->IsKeyPressed(Input::Key::E))
+    if (input->IsKeyDown(Input::Key::E))
     {
         animation->SetAnimationState(AnimationState::Projectile);
+    }
+    else if (input->IsKeyUp(Input::Key::E))
+    {
+        animation->SetAnimationState(AnimationState::Idle);
     }
 }
 

@@ -79,7 +79,7 @@ void SceneGame::OnCreate()
     /*************************
      * Projectile Animations *
      *************************/
-    const bool projectileAnimationLooped = false;
+    const bool projectileAnimationLooped = true;
     const int projectileFrameCount = 10;
     const float delayBetweenProjectileFramesSecs = 0.1f;
 

@@ -3,6 +3,7 @@
 
 #include "Component.hpp"
 #include "Input.hpp"
+#include "C_Animation.hpp"
 #include "C_Velocity.hpp"
 
 class C_KeyboardMovement : public Component
@@ -21,7 +22,7 @@ private:
     float moveSpeed;
     Input* input;
 
-    // Remove line to animation
+    std::shared_ptr<C_Animation> animation;
     std::shared_ptr<C_Velocity> velocity;
 };
 

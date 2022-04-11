@@ -5,6 +5,7 @@ C_KeyboardMovement::C_KeyboardMovement(Object* owner) : Component(owner), moveSp
 
 void C_KeyboardMovement::Awake()
 {
+    animation = owner->GetComponent<C_Animation>();
     velocity = owner->GetComponent<C_Velocity>();
 }
 
@@ -22,6 +23,13 @@ void C_KeyboardMovement::Update(float deltaTime)
 {
     if (input == nullptr)
     {
+        return;
+    }
+
+    //TODO: keyboardmovement should not interact with animation component.
+    if (animation->GetAnimationState() == AnimationState::Projectile)
+    {
+        velocity->Set(0.f, 0.f);
         return;
     }
 
