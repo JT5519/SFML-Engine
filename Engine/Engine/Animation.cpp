@@ -27,9 +27,9 @@ const FrameData* Animation::GetCurrentFrame() const
 
 bool Animation::UpdateFrame(float deltaTime)
 {
-    //TODO: A bit cumbersome. Is there another way to do this?
     if (releaseFirstFrame)
     {
+        RunActionForCurrentFrame();
         releaseFirstFrame = false;
         return true;
     }
@@ -42,6 +42,7 @@ bool Animation::UpdateFrame(float deltaTime)
         {
             currentFrameTime = 0.f;
             IncrementFrame();
+            RunActionForCurrentFrame();
             return true;
         }
     }
@@ -49,14 +50,49 @@ bool Animation::UpdateFrame(float deltaTime)
     return false;
 }
 
-void Animation::IncrementFrame()
+void Animation::AddFrameAction(unsigned int frame, AnimationAction action)
 {
-    currentFrameIndex = (currentFrameIndex + 1) % frames.size();
+    if (frame < frames.size())
+    {
+        auto actionKey = actions.find(frame);
+
+        if (actionKey == actions.end())
+        {
+            framesWithActions.SetBit(frame);
+            actions.insert(std::make_pair(frame, std::vector<AnimationAction>{action}));
+        }
+        else
+        {
+            actionKey->second.emplace_back(action);
+        }
+    }
 }
+
 
 void Animation::Reset()
 {
     currentFrameIndex = 0;
     currentFrameTime = 0.f;
     releaseFirstFrame = true;
+}
+
+void Animation::IncrementFrame()
+{
+    currentFrameIndex = (currentFrameIndex + 1) % frames.size();
+}
+
+void Animation::RunActionForCurrentFrame()
+{
+    if (actions.size() > 0)
+    {
+        if (framesWithActions.GetBit(currentFrameIndex))
+        {
+            auto actionsToRun = actions.at(currentFrameIndex);
+
+            for (auto f : actionsToRun)
+            {
+                f();
+            }
+        }
+    }
 }
