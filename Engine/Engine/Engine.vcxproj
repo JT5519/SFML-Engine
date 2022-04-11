@@ -160,6 +160,7 @@
     <ClCompile Include="C_Drawable.cpp" />
     <ClCompile Include="C_InstanceID.cpp" />
     <ClCompile Include="C_KeyboardMovement.cpp" />
+    <ClCompile Include="C_ProjectileAttack.cpp" />
     <ClCompile Include="C_Sprite.cpp" />
     <ClCompile Include="C_Transform.cpp" />
     <ClCompile Include="Debug.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="C_Drawable.hpp" />
     <ClInclude Include="C_InstanceID.hpp" />
     <ClInclude Include="C_KeyboardMovement.hpp" />
+    <ClInclude Include="C_ProjectileAttack.hpp" />
     <ClInclude Include="C_Sprite.hpp" />
     <ClInclude Include="C_Transform.hpp" />
     <ClInclude Include="Debug.hpp" />
@@ -216,10 +218,10 @@
     <ClInclude Include="WorkingDirectory.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Desktop\Player.png" />
     <Image Include="charSprite.png" />
     <Image Include="geralt-thumbs-up.png" />
     <Image Include="Jungle Tiles.png" />
+    <Image Include="Player.png" />
     <Image Include="Red Square.png" />
     <Image Include="Viking.png" />
   </ItemGroup>

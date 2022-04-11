@@ -93,6 +93,9 @@
     <ClCompile Include="C_Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C_ProjectileAttack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp">
@@ -200,6 +203,9 @@
     <ClInclude Include="C_Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C_ProjectileAttack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="charSprite.png">
@@ -217,7 +223,7 @@
     <Image Include="Red Square.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\Desktop\Player.png">
+    <Image Include="Player.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
