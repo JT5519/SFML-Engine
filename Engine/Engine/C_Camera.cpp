@@ -13,8 +13,7 @@ void C_Camera::LateUpdate(float deltaTime)
         sf::View view = window->GetView();
 
         const sf::Vector2f& playerPos = owner->transform->GetPosition();
-        //TODO: remove hard-coding of y value
-        view.setCenter(playerPos.x, 500);
+        view.setCenter(playerPos.x, playerPos.y);
 
         window->SetView(view);
     }

@@ -1,6 +1,6 @@
 #include "Animation.hpp"
 
-Animation::Animation() : frames(0), currentFrameIndex(0), currentFrameTime(0.f) { }
+Animation::Animation() : frames(0), currentFrameIndex(0), currentFrameTime(0.f), releaseFirstFrame(true) { }
 
 void Animation::AddFrame(int textureID, int x, int y, int width, int height, float frameTime)
 {
@@ -27,7 +27,14 @@ const FrameData* Animation::GetCurrentFrame() const
 
 bool Animation::UpdateFrame(float deltaTime)
 {
-    if (frames.size() > 0)
+    //TODO: A bit cumbersome. Is there another way to do this?
+    if (releaseFirstFrame)
+    {
+        releaseFirstFrame = false;
+        return true;
+    }
+
+    if (frames.size() > 1)
     {
         currentFrameTime += deltaTime;
 
@@ -51,4 +58,5 @@ void Animation::Reset()
 {
     currentFrameIndex = 0;
     currentFrameTime = 0.f;
+    releaseFirstFrame = true;
 }

@@ -41,6 +41,7 @@ private:
     std::vector<FrameData> frames;
     int currentFrameIndex;
     float currentFrameTime;
+    bool releaseFirstFrame;
 };
 
 

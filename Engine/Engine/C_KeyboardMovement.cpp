@@ -29,24 +29,20 @@ void C_KeyboardMovement::Update(float deltaTime)
     if (input->IsKeyPressed(Input::Key::Left))
     {
         xMove = -moveSpeed;
-        animation->SetAnimationDirection(FacingDirection::Left);
     }
     else if (input->IsKeyPressed(Input::Key::Right))
     {
         xMove = moveSpeed;
-        animation->SetAnimationDirection(FacingDirection::Right);
     }
 
     int yMove = 0;
     if (input->IsKeyPressed(Input::Key::Up))
     {
         yMove = -moveSpeed;
-        animation->SetAnimationDirection(FacingDirection::Up);
     }
     else if (input->IsKeyPressed(Input::Key::Down))
     {
         yMove = moveSpeed;
-        animation->SetAnimationDirection(FacingDirection::Down);
     }
 
     float xFrameMove = xMove * deltaTime;
@@ -61,5 +57,28 @@ void C_KeyboardMovement::Update(float deltaTime)
     else
     {
         animation->SetAnimationState(AnimationState::Walk);
+
+        if (abs(xMove) > abs(yMove))
+        {
+            if (xMove < 0)
+            {
+                animation->SetAnimationDirection(FacingDirection::Left);
+            }
+            else
+            {
+                animation->SetAnimationDirection(FacingDirection::Right);
+            }
+        }
+        else
+        {
+            if (yMove < 0)
+            {
+                animation->SetAnimationDirection(FacingDirection::Up);
+            }
+            else
+            {
+                animation->SetAnimationDirection(FacingDirection::Down);
+            }
+        }
     }
 }
