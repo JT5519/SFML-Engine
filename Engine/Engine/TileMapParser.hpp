@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <map>
 #include <sstream>
+#include <iostream>
 
 #include "rapidxml.hpp"
 #include "rapidxml.hpp"
@@ -32,7 +33,7 @@ struct Layer
     bool isVisible;
 };
 
-using MapTiles = std::map<std::string, std::shared_ptr<Layer>>; // Stores layer names with layer.
+using MapTiles = std::vector<std::pair<std::string, std::shared_ptr<Layer>>>; // Stores layer names with layer.
 using TileSet = std::unordered_map<unsigned int, std::shared_ptr<TileInfo>>; // Stores the different tile types that can be used.
 using TileSheets = std::map<int, std::shared_ptr<TileSheetData>>;
 

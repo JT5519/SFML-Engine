@@ -224,6 +224,10 @@
     <Image Include="Viking.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="City.tmx" />
+    <None Include="House Exterior.tmx" />
+    <None Include="House Interior.tmx" />
+    <None Include="Path.tmx" />
     <None Include="Test Map 1.tmx" />
     <None Include="Test Map 2.tmx" />
     <None Include="Viking.json" />

@@ -231,5 +231,17 @@
     <None Include="Test Map 1.tmx">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="City.tmx">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="House Exterior.tmx">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="House Interior.tmx">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Path.tmx">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
