@@ -29,6 +29,8 @@ void SceneGame::OnCreate()
     /*******************
      * Idle Animations *
      *******************/
+    const bool idleAnimationLooped = false;
+
     unsigned int idleYFramePos = 512;
 
     std::map<FacingDirection, std::shared_ptr<Animation>> idleAnimations;
@@ -37,7 +39,7 @@ void SceneGame::OnCreate()
     {
         std::shared_ptr<Animation> idleAnimation = std::make_shared<Animation>();
 
-        idleAnimation->AddFrame(playerTextureID, 0, idleYFramePos, frameWidth, frameHeight, 0.f);
+        idleAnimation->AddFrame(playerTextureID, 0, idleYFramePos, frameWidth, frameHeight, 0.f, idleAnimationLooped);
 
         idleAnimations.insert(std::make_pair(directions[i], idleAnimation));
 
@@ -50,6 +52,7 @@ void SceneGame::OnCreate()
     /**********************
      * Walking Animations *
      **********************/
+    const bool walkAnimationLooped = false;
     const int walkingFrameCount = 9;
     const float delayBetweenWalkingFramesSecs = 0.1f;
 
@@ -62,7 +65,7 @@ void SceneGame::OnCreate()
         std::shared_ptr<Animation> walkingAnimation = std::make_shared<Animation>();
         for (int i = 0; i < walkingFrameCount; i++)
         {
-            walkingAnimation->AddFrame(playerTextureID, i * frameWidth, walkingYFramePos, frameWidth, frameHeight, delayBetweenWalkingFramesSecs);
+            walkingAnimation->AddFrame(playerTextureID, i * frameWidth, walkingYFramePos, frameWidth, frameHeight, delayBetweenWalkingFramesSecs, walkAnimationLooped);
         }
 
         walkingAnimations.insert(std::make_pair(directions[i], walkingAnimation));
@@ -76,6 +79,7 @@ void SceneGame::OnCreate()
     /*************************
      * Projectile Animations *
      *************************/
+    const bool projectileAnimationLooped = false;
     const int projectileFrameCount = 10;
     const float delayBetweenProjectileFramesSecs = 0.1f;
 
@@ -88,7 +92,7 @@ void SceneGame::OnCreate()
         std::shared_ptr<Animation> projAnimation = std::make_shared<Animation>();
         for (int i = 0; i < projectileFrameCount; i++)
         {
-            projAnimation->AddFrame(playerTextureID, i * frameWidth, projFrameYPos, frameWidth, frameHeight, delayBetweenProjectileFramesSecs);
+            projAnimation->AddFrame(playerTextureID, i * frameWidth, projFrameYPos, frameWidth, frameHeight, delayBetweenProjectileFramesSecs, projectileAnimationLooped);
         }
         projectileAnimations.insert(std::make_pair(directions[i], projAnimation));
 

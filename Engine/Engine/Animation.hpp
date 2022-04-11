@@ -32,7 +32,7 @@ class Animation
 public:
     Animation();
 
-    void AddFrame(int textureID, int x, int y, int width, int height, float frameTime);
+    void AddFrame(int textureID, int x, int y, int width, int height, float frameTime, bool looped);
 
     const FrameData* GetCurrentFrame() const;
 
@@ -41,6 +41,9 @@ public:
     void AddFrameAction(unsigned int frame, AnimationAction action);
 
     void Reset();
+
+    void SetLooped(bool looped);
+    bool IsLooped();
 
 private:
     void IncrementFrame();
@@ -52,7 +55,7 @@ private:
     bool releaseFirstFrame;
     std::map<int, std::vector<AnimationAction>> actions;
     Bitmask framesWithActions;
-
+    bool isLooped;
 };
 
 

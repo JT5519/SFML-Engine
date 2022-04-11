@@ -1,8 +1,8 @@
 #include "Animation.hpp"
 
-Animation::Animation() : frames(0), currentFrameIndex(0), currentFrameTime(0.f), releaseFirstFrame(true) { }
+Animation::Animation() : frames(0), currentFrameIndex(0), currentFrameTime(0.f), releaseFirstFrame(true), isLooped(true) { }
 
-void Animation::AddFrame(int textureID, int x, int y, int width, int height, float frameTime)
+void Animation::AddFrame(int textureID, int x, int y, int width, int height, float frameTime, bool looped)
 {
     FrameData data;
     data.id = textureID;
@@ -11,8 +11,9 @@ void Animation::AddFrame(int textureID, int x, int y, int width, int height, flo
     data.width = width;
     data.height = height;
     data.displayTimeSeconds = frameTime;
-
     frames.push_back(data);
+
+    isLooped = looped;
 }
 
 const FrameData* Animation::GetCurrentFrame() const
@@ -34,7 +35,7 @@ bool Animation::UpdateFrame(float deltaTime)
         return true;
     }
 
-    if (frames.size() > 1)
+    if (frames.size() > 1 && (isLooped || currentFrameIndex < frames.size() - 1))
     {
         currentFrameTime += deltaTime;
 
@@ -44,6 +45,7 @@ bool Animation::UpdateFrame(float deltaTime)
             IncrementFrame();
             RunActionForCurrentFrame();
             return true;
+
         }
     }
 
@@ -74,6 +76,16 @@ void Animation::Reset()
     currentFrameIndex = 0;
     currentFrameTime = 0.f;
     releaseFirstFrame = true;
+}
+
+void Animation::SetLooped(bool looped)
+{
+    isLooped = looped;
+}
+
+bool Animation::IsLooped()
+{
+    return isLooped;
 }
 
 void Animation::IncrementFrame()
