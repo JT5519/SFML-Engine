@@ -189,6 +189,7 @@
     <ClInclude Include="C_Animation.hpp" />
     <ClInclude Include="C_BoxCollider.hpp" />
     <ClInclude Include="C_Camera.hpp" />
+    <ClInclude Include="C_Collidable.hpp" />
     <ClInclude Include="C_Collider.hpp" />
     <ClInclude Include="C_Direction.hpp" />
     <ClInclude Include="C_Drawable.hpp" />

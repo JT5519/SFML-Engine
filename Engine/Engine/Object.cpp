@@ -43,6 +43,30 @@ void Object::Draw(Window& window)
     drawable->Draw(window);
 }
 
+void Object::OnCollisionEnter(std::shared_ptr<C_BoxCollider> other)
+{
+    for (const auto& component : collidables)
+    {
+        component->OnCollisionEnter(other);
+    }
+}
+
+void Object::OnCollisionStay(std::shared_ptr<C_BoxCollider> other)
+{
+    for (const auto& component : collidables)
+    {
+        component->OnCollisionStay(other);
+    }
+}
+
+void Object::OnCollisionExit(std::shared_ptr<C_BoxCollider> other)
+{
+    for (const auto& component : collidables)
+    {
+        component->OnCollisionExit(other);
+    }
+}
+
 void Object::QueueForRemoval()
 {
     queuedForRemoval = true;

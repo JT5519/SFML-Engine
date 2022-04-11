@@ -9,6 +9,7 @@
 #include "C_Drawable.hpp"
 #include "C_InstanceID.hpp"
 #include "SharedContext.hpp"
+#include "C_Collidable.hpp"
 
 class Object
 {
@@ -21,6 +22,10 @@ public:
     void Update(float deltaTime);
     void LateUpdate(float deltaTime);
     void Draw(Window& window);
+
+    void OnCollisionEnter(std::shared_ptr<C_BoxCollider> other);
+    void OnCollisionStay(std::shared_ptr<C_BoxCollider> other);
+    void OnCollisionExit(std::shared_ptr<C_BoxCollider> other);
 
     template <typename T> std::shared_ptr<T> AddComponent()
     {
@@ -43,6 +48,11 @@ public:
         if (std::dynamic_pointer_cast<C_Drawable>(newComponent))
         {
             drawable = std::dynamic_pointer_cast<C_Drawable>(newComponent);
+        }
+
+        if (std::dynamic_pointer_cast<C_Collidable>(newComponent))
+        {
+            collidables.push_back(std::dynamic_pointer_cast<C_Collidable>(newComponent));
         }
 
         return newComponent;
@@ -75,6 +85,7 @@ public:
 private:
     std::vector<std::shared_ptr<Component>> components;
     std::shared_ptr<C_Drawable> drawable;
+    std::vector<std::shared_ptr<C_Collidable>> collidables;
     bool queuedForRemoval;
 };
 
