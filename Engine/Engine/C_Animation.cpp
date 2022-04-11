@@ -82,3 +82,18 @@ void C_Animation::SetAnimationDirection(FacingDirection dir)
         }
     }
 }
+
+void C_Animation::AddAnimationAction(AnimationState state, FacingDirection dir, int frame, AnimationAction action)
+{
+    auto animationList = animations.find(state);
+
+    if (animationList != animations.end())
+    {
+        auto animation = animationList->second.find(dir);
+
+        if (animation != animationList->second.end())
+        {
+            animation->second->AddFrameAction(frame, action);
+        }
+    }
+}

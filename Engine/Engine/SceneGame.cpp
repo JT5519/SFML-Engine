@@ -35,7 +35,7 @@ void SceneGame::OnCreate()
 
     unsigned int idleYFramePos = 512;
 
-    std::map<FacingDirection, std::shared_ptr<Animation>> idleAnimations;
+    std::unordered_map<FacingDirection, std::shared_ptr<Animation>, EnumClassHash> idleAnimations;
 
     for (int i = 0; i < 4; i++)
     {
@@ -60,7 +60,7 @@ void SceneGame::OnCreate()
 
     unsigned int walkingYFramePos = 512;
 
-    std::map<FacingDirection, std::shared_ptr<Animation>> walkingAnimations;
+    std::unordered_map<FacingDirection, std::shared_ptr<Animation>, EnumClassHash> walkingAnimations;
 
     for (int i = 0; i < 4; i++)
     {
@@ -85,7 +85,7 @@ void SceneGame::OnCreate()
     const int projectileFrameCount = 10;
     const float delayBetweenProjectileFramesSecs = 0.1f;
 
-    std::map<FacingDirection, std::shared_ptr<Animation>> projectileAnimations;
+    std::unordered_map<FacingDirection, std::shared_ptr<Animation>, EnumClassHash> projectileAnimations;
 
     unsigned int projFrameYPos = 1024;
 

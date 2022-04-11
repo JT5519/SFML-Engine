@@ -200,6 +200,7 @@
     <ClInclude Include="C_Transform.hpp" />
     <ClInclude Include="C_Velocity.hpp" />
     <ClInclude Include="Debug.hpp" />
+    <ClInclude Include="EnumClassHash.hpp" />
     <ClInclude Include="EnumHash.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Input.hpp" />

@@ -1,10 +1,13 @@
 #ifndef C_Animation_hpp
 #define C_Animation_hpp
 
+#include <unordered_map>
+
 #include "Component.hpp"
 #include "Animation.hpp"
 #include "C_Sprite.hpp"
 #include "C_Direction.hpp"
+#include "EnumClassHash.hpp"
 
 enum class AnimationState
 {
@@ -14,7 +17,7 @@ enum class AnimationState
     Projectile
 };
 
-using AnimationList = std::map<FacingDirection, std::shared_ptr<Animation>>;
+using AnimationList = std::unordered_map<FacingDirection, std::shared_ptr<Animation>, EnumClassHash>;
 
 class C_Animation : public Component
 {
@@ -32,9 +35,11 @@ public:
 
     void SetAnimationDirection(FacingDirection dir);
 
+    void AddAnimationAction(AnimationState state, FacingDirection dir, int frame, AnimationAction action);
+
 private:
     std::shared_ptr<C_Sprite> sprite;
-    std::map<AnimationState, AnimationList> animations;
+    std::unordered_map<AnimationState, AnimationList, EnumClassHash> animations;
     std::pair<AnimationState, std::shared_ptr<Animation>> currentAnimation;
     FacingDirection currentDirection;
     std::shared_ptr<C_Direction> direction;
