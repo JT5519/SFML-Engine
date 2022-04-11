@@ -1,7 +1,7 @@
 #include "C_KeyboardMovement.hpp"
 #include "Object.hpp"
 
-C_KeyboardMovement::C_KeyboardMovement(Object* owner) : Component(owner), moveSpeed(200) {}
+C_KeyboardMovement::C_KeyboardMovement(Object* owner) : Component(owner), moveSpeed(400) {}
 
 void C_KeyboardMovement::Awake()
 {
@@ -41,10 +41,12 @@ void C_KeyboardMovement::Update(float deltaTime)
     if (input->IsKeyPressed(Input::Key::Up))
     {
         yMove = -moveSpeed;
+        animation->SetAnimationDirection(FacingDirection::Up);
     }
     else if (input->IsKeyPressed(Input::Key::Down))
     {
         yMove = moveSpeed;
+        animation->SetAnimationDirection(FacingDirection::Down);
     }
 
     float xFrameMove = xMove * deltaTime;

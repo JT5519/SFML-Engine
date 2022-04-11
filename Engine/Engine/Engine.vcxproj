@@ -216,6 +216,7 @@
     <ClInclude Include="WorkingDirectory.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\Desktop\Player.png" />
     <Image Include="charSprite.png" />
     <Image Include="geralt-thumbs-up.png" />
     <Image Include="Jungle Tiles.png" />

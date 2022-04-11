@@ -1,7 +1,6 @@
 #include "Animation.hpp"
 
-
-Animation::Animation(FacingDirection direction) : frames(0), currentFrameIndex(0), currentFrameTime(0.f), direction(direction) { }
+Animation::Animation() : frames(0), currentFrameIndex(0), currentFrameTime(0.f) { }
 
 void Animation::AddFrame(int textureID, int x, int y, int width, int height, float frameTime)
 {
@@ -45,37 +44,11 @@ bool Animation::UpdateFrame(float deltaTime)
 
 void Animation::IncrementFrame()
 {
-    // check if we reached the last frame
-    if (currentFrameIndex == (frames.size() - 1))
-    {
-        currentFrameIndex = 0;
-    }
-    else
-    {
-        currentFrameIndex++;
-    }
+    currentFrameIndex = (currentFrameIndex + 1) % frames.size();
 }
 
 void Animation::Reset()
 {
     currentFrameIndex = 0;
     currentFrameTime = 0.f;
-}
-
-void Animation::SetDirection(FacingDirection dir)
-{
-    if (direction != dir)
-    {
-        direction = dir;
-        for (auto& f : frames)
-        {
-            f.x += f.width;
-            f.width *= -1;
-        }
-    }
-}
-
-FacingDirection Animation::GetDirection() const
-{
-    return direction;
 }

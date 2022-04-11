@@ -7,7 +7,9 @@ enum class FacingDirection
 {
     None,
     Left,
-    Right
+    Right,
+    Up,
+    Down
 };
 
 struct FrameData
@@ -23,7 +25,7 @@ struct FrameData
 class Animation
 {
 public:
-    Animation(FacingDirection direction);
+    Animation();
 
     void AddFrame(int textureID, int x, int y, int width, int height, float frameTime);
 
@@ -33,17 +35,12 @@ public:
 
     void Reset();
 
-    void SetDirection(FacingDirection dir);
-
-    FacingDirection GetDirection() const;
-
 private:
     void IncrementFrame();
 
     std::vector<FrameData> frames;
     int currentFrameIndex;
     float currentFrameTime;
-    FacingDirection direction;
 };
 
 

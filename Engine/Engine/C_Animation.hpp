@@ -12,6 +12,8 @@ enum class AnimationState
     Walk
 };
 
+using AnimationList = std::map<FacingDirection, std::shared_ptr<Animation>>;
+
 class C_Animation : public Component
 {
 public:
@@ -21,7 +23,8 @@ public:
 
     void Update(float deltaTime) override;
 
-    void AddAnimation(AnimationState state, std::shared_ptr<Animation> animation);
+    void AddAnimation(AnimationState state, AnimationList& animationList);
+
     void SetAnimationState(AnimationState state);
     const AnimationState& GetAnimationState() const;
 
@@ -29,8 +32,9 @@ public:
 
 private:
     std::shared_ptr<C_Sprite> sprite;
-    std::map<AnimationState, std::shared_ptr<Animation>> animations;
+    std::map<AnimationState, AnimationList> animations;
     std::pair<AnimationState, std::shared_ptr<Animation>> currentAnimation;
+    FacingDirection currentDirection;
 };
 
 #endif /* C_Animation_hpp */
