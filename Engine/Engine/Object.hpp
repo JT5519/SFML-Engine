@@ -11,6 +11,7 @@
 #include "SharedContext.hpp"
 #include "C_Collidable.hpp"
 
+//TODO: look into replacing object hierarchy with std::function - https://probablydance.com/2012/12/16/the-importance-of-stdfunction/
 class Object
 {
 public:

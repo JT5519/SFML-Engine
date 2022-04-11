@@ -83,7 +83,7 @@ void SceneGame::OnCreate()
      *************************/
     const bool projectileAnimationLooped = true;
     const int projectileFrameCount = 10;
-    const float delayBetweenProjectileFramesSecs = 0.1f;
+    const float delayBetweenProjectileFramesSecs = 0.08f;
 
     std::unordered_map<FacingDirection, std::shared_ptr<Animation>, EnumClassHash> projectileAnimations;
 
@@ -116,7 +116,7 @@ void SceneGame::OnCreate()
 
     objects.Add(player);
 
-    // You will need to play around with this offset until it fits the level in at your chosen resolution. This worls for 1920 * 1080.
+    // You will need to play around with this offset until it fits the level in at your chosen resolution. This works for 1920 * 1080.
     // In future we will remove this hardcoded offset when we look at allowing the player to change resolutions.
     sf::Vector2i mapOffset(0, 180);
     //sf::Vector2i mapOffset(128, 128);

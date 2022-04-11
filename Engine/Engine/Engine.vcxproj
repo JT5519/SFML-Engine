@@ -163,6 +163,7 @@
     <ClCompile Include="C_KeyboardMovement.cpp" />
     <ClCompile Include="C_MovementAnimation.cpp" />
     <ClCompile Include="C_ProjectileAttack.cpp" />
+    <ClCompile Include="C_RemoveObjectOnCollisionEnter.cpp" />
     <ClCompile Include="C_Sprite.cpp" />
     <ClCompile Include="C_Transform.cpp" />
     <ClCompile Include="C_Velocity.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="C_KeyboardMovement.hpp" />
     <ClInclude Include="C_MovementAnimation.hpp" />
     <ClInclude Include="C_ProjectileAttack.hpp" />
+    <ClInclude Include="C_RemoveObjectOnCollisionEnter.hpp" />
     <ClInclude Include="C_Sprite.hpp" />
     <ClInclude Include="C_Transform.hpp" />
     <ClInclude Include="C_Velocity.hpp" />

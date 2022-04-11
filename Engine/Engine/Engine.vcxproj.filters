@@ -105,6 +105,9 @@
     <ClCompile Include="C_Direction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C_RemoveObjectOnCollisionEnter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp">
@@ -234,6 +237,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ComponentPairHash.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C_RemoveObjectOnCollisionEnter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

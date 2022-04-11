@@ -59,8 +59,6 @@ void C_ProjectileAttack::SpawnProjectile()
     projectile->transform->SetPosition(owner->transform->GetPosition() +
         offsetDirectionBindings.at(faceDir));
 
-    FacingDirection currentDir = direction->Get();
-
     auto projSprite = projectile->AddComponent<C_Sprite>();
     projSprite->Load(projectileTextureID);
     projSprite->SetDrawLayer(DrawLayer::Entities);
@@ -73,6 +71,8 @@ void C_ProjectileAttack::SpawnProjectile()
     auto collider = projectile->AddComponent<C_BoxCollider>();
     collider->SetSize(32, 32);
     collider->SetLayer(CollisionLayer::Projectile);
+
+    projectile->AddComponent<C_RemoveObjectOnCollisionEnter>();
 
     owner->context->objects->Add(projectile);
 }
