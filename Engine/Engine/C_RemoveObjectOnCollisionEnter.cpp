@@ -5,5 +5,8 @@ C_RemoveObjectOnCollisionEnter::C_RemoveObjectOnCollisionEnter(Object* owner) : 
 
 void C_RemoveObjectOnCollisionEnter::OnCollisionEnter(std::shared_ptr<C_BoxCollider> other)
 {
+    //auto collider = owner->GetComponent<C_BoxCollider>();
+    //owner->context->collisionTree->Remove(collider);
+
     owner->QueueForRemoval();
 }

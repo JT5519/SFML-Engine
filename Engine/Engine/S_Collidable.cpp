@@ -146,7 +146,7 @@ void S_Collidable::Update()
 {
     collisionTree.DrawDebug();
 
-    ProcessCollidingObjects();
+    //og place to process colliding objects 
 
     collisionTree.Clear();
     for (auto maps = collidables.begin(); maps != collidables.end(); ++maps)
@@ -158,6 +158,7 @@ void S_Collidable::Update()
     }
 
     Resolve();
+    ProcessCollidingObjects();
 }
 
 void S_Collidable::ProcessCollidingObjects()
