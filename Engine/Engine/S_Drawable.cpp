@@ -6,6 +6,8 @@ void S_Drawable::Add(std::vector<std::shared_ptr<Object>>& objects)
     {
         Add(o);
     }
+
+    Sort();
 }
 
 void S_Drawable::ProcessRemovals()
@@ -71,8 +73,6 @@ void S_Drawable::Sort()
 
 void S_Drawable::Draw(Window& window)
 {
-    Sort();
-
     for (auto& layer : drawables)
     {
         for (auto& drawable : layer.second)

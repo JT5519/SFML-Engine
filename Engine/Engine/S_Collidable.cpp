@@ -1,6 +1,6 @@
 #include "S_Collidable.hpp"
 
-S_Collidable::S_Collidable() : collisionTree(5, 5, 0, { 0, 0, 4200, 1080 }, nullptr)
+S_Collidable::S_Collidable(Quadtree& collisionTree) : collisionTree(collisionTree)
 {
     Bitmask defaultCollisions;
     defaultCollisions.SetBit((int)CollisionLayer::Default);
@@ -11,11 +11,17 @@ S_Collidable::S_Collidable() : collisionTree(5, 5, 0, { 0, 0, 4200, 1080 }, null
     Bitmask playerCollisions;
     playerCollisions.SetBit((int)CollisionLayer::Default);
     playerCollisions.SetBit((int)CollisionLayer::Tile);
+    playerCollisions.SetBit((int)CollisionLayer::NPC);
     collisionLayers.insert(std::make_pair(CollisionLayer::Player, playerCollisions));
 
     Bitmask projectileCollisions;
     projectileCollisions.SetBit((int)CollisionLayer::Tile);
+    projectileCollisions.SetBit((int)CollisionLayer::NPC);
     collisionLayers.insert(std::make_pair(CollisionLayer::Projectile, projectileCollisions));
+
+    Bitmask npcCollisions;
+    npcCollisions.SetBit((int)CollisionLayer::Tile);
+    collisionLayers.insert(std::make_pair(CollisionLayer::NPC, npcCollisions));
 }
 
 void S_Collidable::Add(std::vector<std::shared_ptr<Object>>& objects)
@@ -120,8 +126,8 @@ void S_Collidable::Resolve()
                             collision->owner->OnCollisionEnter(collidable);
                         }
 
-                        Debug::DrawRect(collision->GetCollidable(), sf::Color::Red);
-                        Debug::DrawRect(collidable->GetCollidable(), sf::Color::Red);
+                        //                        Debug::DrawRect(collision->GetCollidable(), sf::Color::Red);
+                        //                        Debug::DrawRect(collidable->GetCollidable(), sf::Color::Red);
 
                         if (collision->owner->transform->isStatic())
                         {
@@ -146,7 +152,7 @@ void S_Collidable::Update()
 {
     collisionTree.DrawDebug();
 
-    //og place to process colliding objects 
+    ProcessCollidingObjects();
 
     collisionTree.Clear();
     for (auto maps = collidables.begin(); maps != collidables.end(); ++maps)
@@ -158,7 +164,6 @@ void S_Collidable::Update()
     }
 
     Resolve();
-    ProcessCollidingObjects();
 }
 
 void S_Collidable::ProcessCollidingObjects()

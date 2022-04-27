@@ -1,6 +1,6 @@
 #include "SceneStateMachine.hpp"
 
-SceneStateMachine::SceneStateMachine() : scenes(0), curScene(0) { }
+SceneStateMachine::SceneStateMachine() : scenes(0), curScene(0), insertedSceneID(0) { }
 
 void SceneStateMachine::ProcessInput()
 {
@@ -38,9 +38,13 @@ unsigned int SceneStateMachine::Add(std::shared_ptr<Scene> scene)
 {
     auto inserted = scenes.insert(std::make_pair(insertedSceneID, scene));
 
-    inserted.first->second->OnCreate();
+    if (inserted.second)
+    {
+        scene->OnCreate();
+        insertedSceneID++;
+    }
 
-    return insertedSceneID++;
+    return inserted.first->first;
 }
 
 void SceneStateMachine::SwitchTo(unsigned int id)

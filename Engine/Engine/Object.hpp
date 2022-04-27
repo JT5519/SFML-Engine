@@ -10,6 +10,7 @@
 #include "C_InstanceID.hpp"
 #include "SharedContext.hpp"
 #include "C_Collidable.hpp"
+#include "C_Tag.hpp"
 
 //TODO: look into replacing object hierarchy with std::function - https://probablydance.com/2012/12/16/the-importance-of-stdfunction/
 class Object
@@ -61,7 +62,6 @@ public:
 
     template <typename T> std::shared_ptr<T> GetComponent()
     {
-        // Check that we don't already have a component of this type.
         for (auto& exisitingComponent : components)
         {
             if (std::dynamic_pointer_cast<T>(exisitingComponent))
@@ -73,6 +73,20 @@ public:
         return nullptr;
     };
 
+    template <typename T> std::vector<std::shared_ptr<T>> GetComponents()
+    {
+        std::vector<std::shared_ptr<T>> matchingComponents;
+        for (auto& exisitingComponent : components)
+        {
+            if (std::dynamic_pointer_cast<T>(exisitingComponent))
+            {
+                matchingComponents.emplace_back(std::dynamic_pointer_cast<T>(exisitingComponent));
+            }
+        }
+
+        return matchingComponents;
+    };
+
     std::shared_ptr<C_Drawable> GetDrawable();
 
     bool IsQueuedForRemoval();
@@ -80,6 +94,7 @@ public:
 
     std::shared_ptr<C_Transform> transform;
     std::shared_ptr<C_InstanceID> instanceID;
+    std::shared_ptr<C_Tag> tag;
 
     SharedContext* context;
 

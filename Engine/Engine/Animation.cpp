@@ -2,7 +2,7 @@
 
 Animation::Animation() : frames(0), currentFrameIndex(0), currentFrameTime(0.f), releaseFirstFrame(true), isLooped(true) { }
 
-void Animation::AddFrame(int textureID, int x, int y, int width, int height, float frameTime, bool looped)
+void Animation::AddFrame(int textureID, int x, int y, int width, int height, float frameTime)
 {
     FrameData data;
     data.id = textureID;
@@ -12,8 +12,6 @@ void Animation::AddFrame(int textureID, int x, int y, int width, int height, flo
     data.height = height;
     data.displayTimeSeconds = frameTime;
     frames.push_back(data);
-
-    isLooped = looped;
 }
 
 const FrameData* Animation::GetCurrentFrame() const
@@ -28,6 +26,7 @@ const FrameData* Animation::GetCurrentFrame() const
 
 bool Animation::UpdateFrame(float deltaTime)
 {
+    //TODO: A bit cumbersome. Is there another way to do this?
     if (releaseFirstFrame)
     {
         RunActionForCurrentFrame();

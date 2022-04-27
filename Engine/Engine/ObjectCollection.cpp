@@ -1,5 +1,7 @@
 #include "ObjectCollection.hpp"
 
+ObjectCollection::ObjectCollection(S_Drawable& drawableSystem, S_Collidable& collidableSystem) : drawables(drawableSystem), collidables(collidableSystem) {}
+
 void ObjectCollection::Add(std::shared_ptr<Object> object)
 {
     newObjects.push_back(object);
@@ -18,6 +20,8 @@ void ObjectCollection::Update(float deltaTime)
     }
 
     collidables.Update();
+    //collidables.UpdatePositions(objects);
+    //collidables.Resolve();
 }
 
 void ObjectCollection::LateUpdate(float deltaTime)

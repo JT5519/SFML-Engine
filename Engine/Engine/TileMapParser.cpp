@@ -35,7 +35,7 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& fil
 
             std::shared_ptr<Object> tileObject = std::make_shared<Object>(&context);
 
-            const unsigned int tileScale = 2;
+            const unsigned int tileScale = 1;
 
             if (layer.second->isVisible)
             {
@@ -47,9 +47,9 @@ std::vector<std::shared_ptr<Object>> TileMapParser::Parse(const std::string& fil
                 sprite->SetDrawLayer(DrawLayer::Background);
             }
 
-            float x = tile->x * tileSizeX * tileScale + offset.x;
-            float y = tile->y * tileSizeY * tileScale + offset.y;
-            tileObject->transform->SetPosition(x, y);
+            float x = tile->x * (tileSizeX * tileScale);
+            float y = tile->y * (tileSizeY * tileScale);
+            tileObject->transform->SetPosition(x + offset.x, y + offset.y);
             tileObject->transform->SetStatic(true);
 
             if (layer.first == "Collisions")
@@ -203,7 +203,7 @@ std::pair<std::string, std::shared_ptr<Layer>> TileMapParser::BuildLayer(xml_nod
 
             // Bind properties of a tile from a set.
             tile->properties = itr->second;
-            tile->x = count % width - 1;
+            tile->x = count % width;
             tile->y = count / width;
 
             layer->tiles.emplace_back(tile);

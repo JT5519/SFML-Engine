@@ -6,7 +6,8 @@ Quadtree::Quadtree(int maxObjects, int maxLevels, int level, sf::FloatRect bound
 
 void Quadtree::DrawDebug()
 {
-    if (children[0] != nullptr)
+    /*
+    if(children[0] != nullptr)
     {
         for (int i = 0; i < 4; i++)
         {
@@ -15,6 +16,7 @@ void Quadtree::DrawDebug()
     }
 
     Debug::DrawRect(bounds, sf::Color::Red);
+     */
 }
 
 void Quadtree::Insert(std::shared_ptr<C_BoxCollider> object)

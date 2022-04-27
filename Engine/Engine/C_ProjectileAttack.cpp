@@ -17,20 +17,29 @@ void C_ProjectileAttack::Start()
 {
     projectileTextureID = owner->context->textureAllocator->Add(owner->context->workingDir->Get() + "LPC/Weapons/arrow.png");
 
-    textureDirectionBindings.emplace(FacingDirection::Up, sf::IntRect(0, 0, 64, 64));
-    textureDirectionBindings.emplace(FacingDirection::Left, sf::IntRect(64, 0, 64, 64));
-    textureDirectionBindings.emplace(FacingDirection::Down, sf::IntRect(128, 0, 64, 64));
-    textureDirectionBindings.emplace(FacingDirection::Right, sf::IntRect(192, 0, 64, 64));
+    if (textureDirectionBindings.size() == 0)
+    {
+        textureDirectionBindings.emplace(FacingDirection::Up, sf::IntRect(0, 0, 64, 64));
+        textureDirectionBindings.emplace(FacingDirection::Left, sf::IntRect(64, 0, 64, 64));
+        textureDirectionBindings.emplace(FacingDirection::Down, sf::IntRect(128, 0, 64, 64));
+        textureDirectionBindings.emplace(FacingDirection::Right, sf::IntRect(192, 0, 64, 64));
+    }
 
-    offsetDirectionBindings.emplace(FacingDirection::Up, sf::Vector2f());
-    offsetDirectionBindings.emplace(FacingDirection::Left, sf::Vector2f(-8.f, 3.f));
-    offsetDirectionBindings.emplace(FacingDirection::Down, sf::Vector2f(-3.f, 15.f));
-    offsetDirectionBindings.emplace(FacingDirection::Right, sf::Vector2f(8.f, 3.f));
+    if (offsetDirectionBindings.size() == 0)
+    {
+        offsetDirectionBindings.emplace(FacingDirection::Up, sf::Vector2f());
+        offsetDirectionBindings.emplace(FacingDirection::Left, sf::Vector2f(-8.f, 3.f));
+        offsetDirectionBindings.emplace(FacingDirection::Down, sf::Vector2f(-3.f, 15.f));
+        offsetDirectionBindings.emplace(FacingDirection::Right, sf::Vector2f(8.f, 3.f));
+    }
 
-    velocityDirectionBindings.emplace(FacingDirection::Up, sf::Vector2f(0.f, -1.f));
-    velocityDirectionBindings.emplace(FacingDirection::Left, sf::Vector2f(-1.f, 0.f));
-    velocityDirectionBindings.emplace(FacingDirection::Down, sf::Vector2f(0.f, 1.f));
-    velocityDirectionBindings.emplace(FacingDirection::Right, sf::Vector2f(1.f, 0.f));
+    if (velocityDirectionBindings.size() == 0)
+    {
+        velocityDirectionBindings.emplace(FacingDirection::Up, sf::Vector2f(0.f, -1.f));
+        velocityDirectionBindings.emplace(FacingDirection::Left, sf::Vector2f(-1.f, 0.f));
+        velocityDirectionBindings.emplace(FacingDirection::Down, sf::Vector2f(0.f, 1.f));
+        velocityDirectionBindings.emplace(FacingDirection::Right, sf::Vector2f(1.f, 0.f));
+    }
 
     animation->AddAnimationAction(AnimationState::Projectile, FacingDirection::Up, 9, std::bind(&C_ProjectileAttack::SpawnProjectile, this));
     animation->AddAnimationAction(AnimationState::Projectile, FacingDirection::Left, 9, std::bind(&C_ProjectileAttack::SpawnProjectile, this));

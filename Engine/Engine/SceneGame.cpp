@@ -1,6 +1,6 @@
 #include "SceneGame.hpp"
 
-SceneGame::SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture>& textureAllocator, Window& window) : workingDir(workingDir), textureAllocator(textureAllocator), mapParser(textureAllocator, context), window(window) { }
+SceneGame::SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture>& textureAllocator, Window& window, ResourceAllocator<sf::Font>& fontAllocator) : workingDir(workingDir), textureAllocator(textureAllocator), mapParser(textureAllocator, context), window(window), objects(drawbleSystem, collisionSystem), collisionTree(5, 5, 0, { -1216, -16, 2560, 1600 }, nullptr), collisionSystem(collisionTree), raycast(collisionTree), fontAllocator(fontAllocator) { }
 
 void SceneGame::OnCreate()
 {
@@ -9,9 +9,30 @@ void SceneGame::OnCreate()
     context.workingDir = &workingDir;
     context.textureAllocator = &textureAllocator;
     context.window = &window;
+    context.raycast = &raycast;
+    context.fontAllocator = &fontAllocator;
+    context.collisionTree = &collisionTree;
 
+    CreatePlayer();
+    //CreateFriend();
+    CreateFoe();
+
+    // You will need to play around with this offset until the level is in a suitable position based on the current window size.
+    // This works for 1920 * 1080. In future we will remove this hardcoded offset when we add the ability to change resolutions.
+    sf::Vector2i mapOffset(-1200, 0);
+    std::vector<std::shared_ptr<Object>> levelTiles = mapParser.Parse(workingDir.Get() + "Dungeon.tmx", mapOffset);
+    objects.Add(levelTiles);
+}
+
+void SceneGame::OnDestroy()
+{
+
+}
+
+void SceneGame::CreatePlayer()
+{
     std::shared_ptr<Object> player = std::make_shared<Object>(&context);
-
+    player->tag->Set(Tag::Player);
     player->transform->SetPosition(100, 700);
 
     auto sprite = player->AddComponent<C_Sprite>();
@@ -19,9 +40,85 @@ void SceneGame::OnCreate()
 
     player->AddComponent<C_KeyboardMovement>();
 
-    auto animation = player->AddComponent<C_Animation>();
+    int textureID = textureAllocator.Add(workingDir.Get() + "Player.png");
 
-    int playerTextureID = textureAllocator.Add(workingDir.Get() + "Player.png");
+    AddAnimationComponent(player, textureID);
+
+    auto collider = player->AddComponent<C_BoxCollider>();
+    collider->SetSize(64 * 0.4f, 64 * 0.5f);
+    collider->SetOffset(0.f, 14.f);
+    collider->SetLayer(CollisionLayer::Player);
+
+    player->AddComponent<C_Camera>();
+    player->AddComponent<C_ProjectileAttack>();
+    player->AddComponent<C_Velocity>();
+    player->AddComponent<C_MovementAnimation>();
+    player->AddComponent<C_Direction>();
+    player->AddComponent<C_InteractWithObjects>();
+
+    objects.Add(player);
+}
+
+void SceneGame::CreateFriend()
+{
+    std::shared_ptr<Object> npc = std::make_shared<Object>(&context);
+
+    npc->transform->SetPosition(160, 700);
+
+    auto sprite = npc->AddComponent<C_Sprite>();
+    sprite->SetDrawLayer(DrawLayer::Entities);
+
+    const int textureID = textureAllocator.Add(workingDir.Get() + "Skeleton.png");
+
+    AddAnimationComponent(npc, textureID);
+
+    auto collider = npc->AddComponent<C_BoxCollider>();
+    collider->SetSize(64 * 0.4f, 64 * 0.5f);
+    collider->SetOffset(0.f, 14.f);
+    collider->SetLayer(CollisionLayer::NPC);
+
+    npc->AddComponent<C_Velocity>();
+    npc->AddComponent<C_MovementAnimation>();
+    npc->AddComponent<C_Direction>();
+    npc->AddComponent<C_InteractableTalking>();
+    npc->AddComponent<C_WalkInLine>();
+
+    objects.Add(npc);
+}
+
+void SceneGame::CreateFoe()
+{
+    std::shared_ptr<Object> npc = std::make_shared<Object>(&context);
+    npc->tag->Set(Tag::NPC);
+    npc->transform->SetPosition(160, 700);
+
+    auto sprite = npc->AddComponent<C_Sprite>();
+    sprite->SetDrawLayer(DrawLayer::Entities);
+
+    const int textureID = textureAllocator.Add(workingDir.Get() + "Orc.png");
+
+    AddAnimationComponent(npc, textureID);
+
+    auto collider = npc->AddComponent<C_BoxCollider>();
+    collider->SetSize(64 * 0.4f, 64 * 0.5f);
+    collider->SetOffset(0.f, 14.f);
+    collider->SetLayer(CollisionLayer::NPC);
+
+    npc->AddComponent<C_Velocity>();
+    npc->AddComponent<C_MovementAnimation>();
+    npc->AddComponent<C_Direction>();
+
+    npc->AddComponent<C_BehaviourApplier>();
+    auto chase = npc->AddComponent<C_SteeringBehaviourChase>();
+    chase->SetTarget(Tag::Player);
+    npc->AddComponent<C_SteeringBehaviourWallAvoidance>();
+
+    objects.Add(npc);
+}
+
+void SceneGame::AddAnimationComponent(std::shared_ptr<Object> object, const int textureID)
+{
+    auto animation = object->AddComponent<C_Animation>();
 
     const unsigned int frameWidth = 64;
     const unsigned int frameHeight = 64;
@@ -40,8 +137,8 @@ void SceneGame::OnCreate()
     for (int i = 0; i < 4; i++)
     {
         std::shared_ptr<Animation> idleAnimation = std::make_shared<Animation>();
-
-        idleAnimation->AddFrame(playerTextureID, 0, idleYFramePos, frameWidth, frameHeight, 0.f, idleAnimationLooped);
+        idleAnimation->SetLooped(idleAnimationLooped);
+        idleAnimation->AddFrame(textureID, 0, idleYFramePos, frameWidth, frameHeight, 0.f);
 
         idleAnimations.insert(std::make_pair(directions[i], idleAnimation));
 
@@ -65,9 +162,10 @@ void SceneGame::OnCreate()
     for (int i = 0; i < 4; i++)
     {
         std::shared_ptr<Animation> walkingAnimation = std::make_shared<Animation>();
+        walkingAnimation->SetLooped(walkAnimationLooped);
         for (int i = 0; i < walkingFrameCount; i++)
         {
-            walkingAnimation->AddFrame(playerTextureID, i * frameWidth, walkingYFramePos, frameWidth, frameHeight, delayBetweenWalkingFramesSecs, walkAnimationLooped);
+            walkingAnimation->AddFrame(textureID, i * frameWidth, walkingYFramePos, frameWidth, frameHeight, delayBetweenWalkingFramesSecs);
         }
 
         walkingAnimations.insert(std::make_pair(directions[i], walkingAnimation));
@@ -92,9 +190,10 @@ void SceneGame::OnCreate()
     for (int i = 0; i < 4; i++)
     {
         std::shared_ptr<Animation> projAnimation = std::make_shared<Animation>();
+        projAnimation->SetLooped(projectileAnimationLooped);
         for (int i = 0; i < projectileFrameCount; i++)
         {
-            projAnimation->AddFrame(playerTextureID, i * frameWidth, projFrameYPos, frameWidth, frameHeight, delayBetweenProjectileFramesSecs, projectileAnimationLooped);
+            projAnimation->AddFrame(textureID, i * frameWidth, projFrameYPos, frameWidth, frameHeight, delayBetweenProjectileFramesSecs);
         }
         projectileAnimations.insert(std::make_pair(directions[i], projAnimation));
 
@@ -102,32 +201,6 @@ void SceneGame::OnCreate()
     }
 
     animation->AddAnimation(AnimationState::Projectile, projectileAnimations);
-
-    auto collider = player->AddComponent<C_BoxCollider>();
-    collider->SetSize(frameWidth * 0.4f, frameHeight * 0.5f);
-    collider->SetOffset(0.f, 14.f);
-    collider->SetLayer(CollisionLayer::Player);
-
-    player->AddComponent<C_Camera>();
-    player->AddComponent<C_ProjectileAttack>();
-    player->AddComponent<C_Velocity>();
-    player->AddComponent<C_MovementAnimation>();
-    player->AddComponent<C_Direction>();
-
-    objects.Add(player);
-
-    // You will need to play around with this offset until it fits the level in at your chosen resolution. This works for 1920 * 1080.
-    // In future we will remove this hardcoded offset when we look at allowing the player to change resolutions.
-    sf::Vector2i mapOffset(0, 180);
-    //sf::Vector2i mapOffset(128, 128);
-    std::vector<std::shared_ptr<Object>> levelTiles = mapParser.Parse(workingDir.Get() + "House Exterior.tmx", mapOffset);
-
-    objects.Add(levelTiles);
-}
-
-void SceneGame::OnDestroy()
-{
-
 }
 
 void SceneGame::ProcessInput()

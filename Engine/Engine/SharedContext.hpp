@@ -7,6 +7,8 @@
 #include "Window.hpp"
 
 class ObjectCollection;
+class Raycast;
+class Quadtree;
 
 struct SharedContext
 {
@@ -15,6 +17,9 @@ struct SharedContext
     WorkingDirectory* workingDir;
     ResourceAllocator<sf::Texture>* textureAllocator;
     Window* window;
+    Raycast* raycast;
+    ResourceAllocator<sf::Font>* fontAllocator;
+    Quadtree* collisionTree;
 };
 
 #endif /* SharedContext_hpp */

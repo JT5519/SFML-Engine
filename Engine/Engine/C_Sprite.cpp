@@ -25,6 +25,7 @@ void C_Sprite::Load(const std::string& filePath)
     }
 }
 
+//TODO: implement static sprites for level tiles etc.
 void C_Sprite::LateUpdate(float deltaTime)
 {
     sf::Vector2f pos = owner->transform->GetPosition();

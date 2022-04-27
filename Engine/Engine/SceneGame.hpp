@@ -18,11 +18,18 @@
 #include "C_Velocity.hpp"
 #include "C_MovementAnimation.hpp"
 #include "C_Direction.hpp"
+#include "Raycast.hpp"
+#include "C_InteractWithObjects.hpp"
+#include "C_InteractableTalking.hpp"
+#include "C_WalkInLine.hpp"
+#include "C_BehaviourApplier.hpp"
+#include "C_SteeringBehaviourChase.hpp"
+#include "C_SteeringBehaviourWallAvoidance.hpp"
 
 class SceneGame : public Scene
 {
 public:
-    SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture>& textureAllocator, Window& window);
+    SceneGame(WorkingDirectory& workingDir, ResourceAllocator<sf::Texture>& textureAllocator, Window& window, ResourceAllocator<sf::Font>& fontAllocator);
 
     void OnCreate() override;
     void OnDestroy() override;
@@ -33,6 +40,12 @@ public:
     void Draw(Window& window) override;
 
 private:
+    void CreatePlayer();
+    void CreateFriend();
+    void CreateFoe();
+
+    void AddAnimationComponent(std::shared_ptr<Object> object, const int textureID);
+
     WorkingDirectory& workingDir;
     Input input;
     ResourceAllocator<sf::Texture>& textureAllocator;
@@ -40,6 +53,11 @@ private:
     TileMapParser mapParser;
     Window& window;
     SharedContext context;
+    S_Drawable drawbleSystem;
+    S_Collidable collisionSystem;
+    Quadtree collisionTree;
+    Raycast raycast;
+    ResourceAllocator<sf::Font>& fontAllocator;
 };
 
 #endif /* SceneGame_hpp */

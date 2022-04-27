@@ -11,6 +11,7 @@
 class ObjectCollection
 {
 public:
+    ObjectCollection(S_Drawable& drawableSystem, S_Collidable& collidableSystem);
     void Add(std::shared_ptr<Object> object);
     void Add(std::vector<std::shared_ptr<Object>>& objects);
 
@@ -25,8 +26,8 @@ private:
     std::vector<std::shared_ptr<Object>> objects;
     std::vector<std::shared_ptr<Object>> newObjects;
 
-    S_Drawable drawables;
-    S_Collidable collidables;
+    S_Drawable& drawables;
+    S_Collidable& collidables;
 };
 
 #endif /* ObjectCollection_hpp */
