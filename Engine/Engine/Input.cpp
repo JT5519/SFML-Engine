@@ -22,7 +22,7 @@ void Input::Update()
 
     thisFrameKeys.SetBit((int)Key::RBracket, sf::Keyboard::isKeyPressed(sf::Keyboard::RBracket));
 
-    thisFrameKeys.SetBit((int)Key::E, sf::Keyboard::isKeyPressed(sf::Keyboard::E));
+    //thisFrameKeys.SetBit((int)Key::E, sf::Keyboard::isKeyPressed(sf::Keyboard::E));
 
     thisFrameKeys.SetBit((int)Key::R, sf::Keyboard::isKeyPressed(sf::Keyboard::R));
 }
